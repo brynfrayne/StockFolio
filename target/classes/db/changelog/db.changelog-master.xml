@@ -71,6 +71,37 @@
         </insert>
     </changeSet>
 
+    <!-- Generic update template -->
+    <changeSet id="update-template" author="liquibase">
+        <template>
+            <![CDATA[
+            UPDATE {tableName}
+            SET {field} = {value}
+            WHERE {whereField} = {whereValue}
+            ]]>
+        </template>
+    </changeSet>
+
+    <!-- Generic Insert template -->
+    <changeSet id="insert-template" author="liquibase">
+        <template>
+            <![CDATA[
+            INSERT INTO {tableName} ({fields})
+            VALUES ({values})
+            ]]>
+        </template>
+    </changeSet>
+    
+    <!-- Generic Delete template -->
+    <changeSet id="delete-template" author="liquibase">
+        <template>
+            <![CDATA[
+            DELETE FROM {tableName}
+            WHERE {whereField} = {whereValue}
+            ]]>
+        </template>
+    </changeSet>
+
 
 </databaseChangeLog>
 

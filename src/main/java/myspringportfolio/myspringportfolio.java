@@ -1,5 +1,5 @@
 package myspringportfolio;
 
-public class myspringportfolio {
-    
+public class MySpringPortfolio {
+
 }
