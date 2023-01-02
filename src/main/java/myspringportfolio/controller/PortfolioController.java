@@ -27,18 +27,13 @@ public class PortfolioController {
     }
 
     @DeleteMapping("/{id}")
-public void deletePortfolio(@PathVariable Long id) {
-    portfolioService.deletePortfolio(id);
-}
+    public void deletePortfolio(@PathVariable Long id) {
+        portfolioService.deletePortfolio(id);
+    }
 
     @PostMapping
     public Portfolio createPortfolio(@RequestBody Portfolio portfolio) {
         return portfolioService.createPortfolio(portfolio);
-    }
-
-    @PutMapping("/{id}")
-    public Portfolio updatePortfolio(@PathVariable Long id, @RequestBody Portfolio portfolio) {
-        return portfolioService.updatePortfolio(id, portfolio);
     }
 
     @GetMapping("/{id}/assets")

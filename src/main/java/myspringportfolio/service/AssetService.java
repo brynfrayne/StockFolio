@@ -21,11 +21,15 @@ public class AssetService {
     return assetRepository.findAll();
   }
 
+  public Asset getAssetByName(String name) {
+    return assetRepository.findByName(name);
+  }
+
   public Asset addAsset(Asset asset) {
     return assetRepository.save(asset);
   }
 
-  public Asset updateAsset(Asset asset) {
+  public Asset updateAsset(Long id, Asset asset) {
     return assetRepository.update(asset);
   }
 
