@@ -29,7 +29,7 @@ public class AssetService {
     return assetRepository.save(asset);
   }
 
-  public Asset updateAsset(Long id, Asset asset) {
+  public Asset updateAsset(Asset asset) {
     return assetRepository.update(asset);
   }
 

@@ -4,6 +4,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Asset {
@@ -11,14 +15,23 @@ public class Asset {
     @GeneratedValue
     private long id;
 
+    @NotBlank
     private String name; // name of asset
+    @NotBlank
     private String type; // stock, bond, mutual fund, etc.
+    @Positive
     private int assetQuantity; // number of shares of specific asset
+    @Positive
     private float currentAssetPrice; // current price of asset
+    @PositiveOrZero
     private float assetCostBasis; // share price paid for asset
+    @PositiveOrZero
     private float currentTotalValue; // current price of asset * number of shares
+    @PositiveOrZero
     private float totalCostBasis; // share price paid for asset * number of shares
+    @PositiveOrZero
     private float percentGain; // (currentTotalValue - totalCostBasis) / totalCostBasis
+    @NotNull
     private LocalDate datePurchased; // date asset was purchased
 
     @ManyToOne
@@ -74,6 +87,7 @@ public class Asset {
     }
 
     public float getCurrentTotalValue() {
+        currentTotalValue = currentAssetPrice * assetQuantity;
         return currentTotalValue;
     }
 
@@ -82,6 +96,7 @@ public class Asset {
     }
 
     public float getTotalCostBasis() {
+        totalCostBasis = assetCostBasis * assetQuantity;
         return totalCostBasis;
     }
 
