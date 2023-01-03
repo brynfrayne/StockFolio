@@ -1,11 +1,13 @@
 package myspringportfolio.model;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
 
 @Entity
+@Table(name = "portfolio_"+userId)
 public class Portfolio {
 
     private String tableName;

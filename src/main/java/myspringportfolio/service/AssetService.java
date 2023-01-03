@@ -17,8 +17,8 @@ public class AssetService {
     this.assetRepository = assetRepository;
   }
 
-  public List<Asset> getAllAssets() {
-    return assetRepository.findAll();
+  public List<Asset> getAllAssets(long userId) {
+    return assetRepository.findAll(userId);
   }
 
   public Asset getAssetByName(String name) {

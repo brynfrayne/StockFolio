@@ -9,12 +9,8 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     // Custom methods go here...
 
     List<Portfolio> findAllByOrderByNameAsc();
-
     List<Portfolio> findAllByOrderByCurrentTotalValueAsc();
-
     List<Portfolio> findAllByOrderByCurrentTotalValueDesc();
-
     Portfolio findByName(String name);
-
     void deleteByName(String name);
 }

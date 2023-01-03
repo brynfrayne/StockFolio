@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import myspringportfolio.model.User;
+import myspringportfolio.model.User_3;
 import myspringportfolio.service.UserService;
 import java.util.List;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ public class UserController {
   @GetMapping
   public String getUsers(Model model) {
     // Get all users from the database
-    List<User> users = userService.getAllUsers();
+    List<User_3> users = userService.getAllUsers();
     // Add the users to the model
     model.addAttribute("users", users);
     // Render the users template
@@ -39,7 +39,7 @@ public class UserController {
     @RequestParam String lastName, @RequestParam LocalDate dateOfBirth, @RequestParam String phoneNumber,
     @RequestParam String address, @RequestParam String accountType) {
     // Create a new user object
-    User user = new User();
+    User_3 user = new User_3();
     user.setEmail(email);
     user.setPassword(password);
     user.setFirstName(firstName);
@@ -56,7 +56,7 @@ public class UserController {
 
   @GetMapping("/update")
   public String updateUserForm(@RequestParam Long id, Model model) {
-    User user = userService.getUserById(id);
+    User_3 user = userService.getUserById(id);
     model.addAttribute("user", user);
     return "updateUserForm";
   }
@@ -73,7 +73,7 @@ public class UserController {
         @RequestParam String address,
         @RequestParam String accountType
     ) {
-    User user = userService.getUserById(id);
+    User_3 user = userService.getUserById(id);
     user.setEmail(email);
     user.setPassword(password);
     user.setFirstName(firstName);

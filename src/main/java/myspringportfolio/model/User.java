@@ -1,127 +1,114 @@
 package myspringportfolio.model;
-import java.time.LocalDate;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "users")
 public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(name = "email", unique = true, nullable = false)
-  private String email;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+    @Column(name = "password", nullable = false)
+    private String password;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+    @Column(name = "date_of_birth")
+    private String dateOfBirth;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "account_type")
+    private String accountType;
+    private Portfolio portfolio;
 
-  @Column(name = "password", nullable = false)
-  private String password;
+    public User() {
+        this.portfolio = new Portfolio();
+        this.portfolio.setTableName("Portfolio_" + id);
+    }
 
-  @Column(name = "first_name", nullable = false)
-  private String firstName;
+    public Long getId() {
+        return id;
+    }
 
-  @Column(name = "last_name", nullable = false)
-  private String lastName;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  @Column(name = "date_of_birth")
-  private LocalDate dateOfBirth;
+    public String getEmail() {
+        return email;
+    }
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  @Column(name = "address")
-  private String address;
+    public String getPassword() {
+        return password;
+    }
 
-  @Column(name = "account_type")
-  private String accountType;
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  // Getters and setters
-  public Long getId() {
-    return id;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-  public String getLastName() {
-    return lastName;
-  }
+    public String getAddress() {
+        return address;
+    }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-  public LocalDate getDateOfBirth() {
-    return dateOfBirth;
-  }
+    public String getAccountType() {
+        return accountType;
+    }
 
-  public void setDateOfBirth(LocalDate dateOfBirth) {
-    this.dateOfBirth = dateOfBirth;
-  }
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
-  public String getPhoneNumber() {
-    return phoneNumber;
-  }
-
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public String getAccountType() {
-    return accountType;
-  }
-
-  public void setAccountType(String accountType) {
-    this.accountType = accountType;
-  }
-
-    // authentication methods - to be implemented later
-
-    // public boolean validatePassword(String password) {
-        // Validate the password using a hashing algorithm and salt
-        // Return true if the password is valid, false otherwise
-  // }
-
-  // public void resetPassword(String newPassword) {
-        // Hash the new password using a hashing algorithm and salt
-        // Update the password field with the hashed password
-  // }
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
 }

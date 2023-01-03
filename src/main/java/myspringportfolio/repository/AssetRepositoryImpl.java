@@ -11,8 +11,9 @@ public class AssetRepositoryImpl implements AssetRepository {
         this.entityManager = entityManager;
     }
     @Override
-    public List<Asset> findAll() {
-        return entityManager.createQuery("SELECT a FROM Portfolio", Asset.class).getResultList();
+    public List<Asset> findAll(long userId) {
+        String tableName = "Portfolio_" + userId;
+        return entityManager.createQuery("SELECT a FROM " + tableName, Asset.class).getResultList();
     }
     @Override
     public Asset findByName(String name, long userId) {

@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 @Repository
 public interface AssetRepository {
-    List<Asset> findAll();
+    List<Asset> findAll(long userId);
     Asset findByName(String name, long userId);
     Asset update(Asset asset);
     Asset save(Asset asset);
