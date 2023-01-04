@@ -25,6 +25,22 @@
     </createTable>
     </changeSet>
 
+    <!-- Seed data for users table -->
+    <changeSet id="insert-seed-data" author="your_name">
+        <insert tableName="users">
+            <column name="email" value="user1@example.com"/>
+            <column name="password" value="password1"/>
+            <column name="first_name" value="User"/>
+            <column name="last_name" value="One"/>
+            <column name="date_of_birth" value="1980-01-01"/>
+            <column name="phone_number" value="123-456-7890"/>
+            <column name="address" value="123 Main St."/>
+            <column name="account_type" value="individual"/>
+            <column name="account_status" value="active"/>
+            <column name="created_at" value="${now}"/>
+        </insert>
+    </changeSet>
+
     <!-- User's porfolio table template(1 for each user) -->
     <changeSet id="create-portfolio-template" author="liquibase">
         <template>
@@ -43,33 +59,42 @@
         </template>
     </changeSet>
 
-    <!-- Seed data for users table -->
-    <changeSet id="insert-seed-data" author="your_name">
-        <insert tableName="users">
-            <column name="email" value="user1@example.com"/>
-            <column name="password" value="password1"/>
-            <column name="first_name" value="User"/>
-            <column name="last_name" value="One"/>
-            <column name="date_of_birth" value="1980-01-01"/>
-            <column name="phone_number" value="123-456-7890"/>
-            <column name="address" value="123 Main St."/>
-            <column name="account_type" value="individual"/>
-            <column name="account_status" value="active"/>
-            <column name="created_at" value="${now}"/>
-        </insert>
-        <insert tableName="users">
-            <column name="email" value="user2@example.com"/>
-            <column name="password" value="password2"/>
-            <column name="first_name" value="User"/>
-            <column name="last_name" value="Two"/>
-            <column name="date_of_birth" value="1985-01-01"/>
-            <column name="phone_number" value="123-456-7891"/>
-            <column name="address" value="456 Main St."/>
-            <column name="account_type" value="individual"/>
-            <column name="account_status" value="active"/>
-            <column name="created_at" value="${now}"/>
-        </insert>
-    </changeSet>
+    <preconditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="Portfolio_1" />
+        </not>
+    </preconditions>
+
+    <createTable tableName="Portfolio_1">
+        <column name="ID" type="INTEGER" autoIncrement="true" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+        <column name="UserID" type="INTEGER" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+        <column name="InvestmentName" type="VARCHAR(255)" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+        <column name="InvestmentType" type="VARCHAR(255)" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+        <column name="InvestmentAmount" type="NUMERIC" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+        <column name="InvestmentCostBasis" type="NUMERIC" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+        <column name="InvestmentDate" type="TIMESTAMP" primaryKey="true">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+
+    <addForeignKeyConstraint baseColumnNames="UserID"
+                             baseTableName="Portfolio_1"
+                             constraintName="fk_userid"
+                             referencedColumnNames="ID"
+                             referencedTableName="Users"
+                             />
 
     <!-- Generic update template -->
     <changeSet id="update-template" author="liquibase">
@@ -91,7 +116,7 @@
             ]]>
         </template>
     </changeSet>
-    
+
     <!-- Generic Delete template -->
     <changeSet id="delete-template" author="liquibase">
         <template>

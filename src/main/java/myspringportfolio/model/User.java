@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +23,7 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "date_of_birth")
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "address")
@@ -76,11 +77,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
