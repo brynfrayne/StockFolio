@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3f227d42-9876-4080-9904-d42029b15cfa" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/controller/AssetController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/controller/PortfolioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/model/Asset.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/model/Portfolio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/myspringportfolio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/repository/AssetRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/repository/AssetRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/repository/PortfolioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/service/AssetService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/service/PortfolioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/myspringportfolio/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/changelog/db.changelog-master.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/liquibase.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/myspringportfolio/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/changelog/db.changelog-master.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/liquibase.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/controller/AssetController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/controller/PortfolioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/controller/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/model/Asset.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/model/Portfolio.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/myspringportfolio.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/repository/AssetRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/repository/AssetRepositoryImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/repository/PortfolioRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/repository/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/service/AssetService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/service/PortfolioService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/myspringportfolio/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/myspringportfolio-1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-myspringportfolio.AppTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/myspringportfolio.AppTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/myspringportfolio/AppTest.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2K6ncoZNLUvC7VDQFeZVXjDr4Js" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3f227d42-9876-4080-9904-d42029b15cfa" name="Changes" comment="" />
+      <created>1673303981517</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673303981517</updated>
+    </task>
+    <servers />
+  </component>
+</project>

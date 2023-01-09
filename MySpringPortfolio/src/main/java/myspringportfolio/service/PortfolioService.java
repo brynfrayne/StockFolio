@@ -35,23 +35,7 @@ public class PortfolioService {
     }
 
     public Asset addAsset(long portfolioId, Asset asset) {
-        // i want to add a new asset to a portfolio
-        // the asset will be created by the user with a form
-        // the user will only have one portfolio and it will automatically be the one chosen
-        // how do i create a new asset and add it to the portfolio?
         asset.setPortfolio(portfolioRepository)
-
-
-
-        // Optional<Portfolio> portfolio = portfolioRepository.findById(portfolioId);
-        // i want to find a portfolio based on its name which has portfolio and the user name
-        // Optional<Portfolio> portfolio = portfolioRepository.findByString("Portfolio_" + portfolioId);
-        // if (portfolio.isPresent()) {
-        //     Portfolio p = portfolio.get();
-        //     asset.setPortfolio(p);
-        //     return assetRepository.save(asset);
-        // }
-        // return null;
     }
 
     public Asset updateAsset(long portfolioId, long assetId, Asset asset) {

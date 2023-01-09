@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import myspringportfolio.model.Asset;
+import myspringportfolio.model.User;
 import java.util.List;
 
 
@@ -19,6 +20,13 @@ public class PortfolioController {
 
     public PortfolioController(PortfolioService portfolioService) {
         this.portfolioService = portfolioService;
+    }
+
+    @GetMapping("/")
+    public String showtemplate(Portfolio portfolio, User user) {
+        Long userId = user.getId();
+        portfolioService.getAssets(userId);
+        return "portfolioTemplate";
     }
 
     @DeleteMapping("/{id}")
@@ -36,3 +44,4 @@ public class PortfolioController {
         return portfolioService.getAssets(id);
     }
 }
+
