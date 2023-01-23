@@ -1,0 +1,21 @@
+tr {
+    display: table-row;
+}
+
+tbody tr:hover {
+    background-color: #cec7c7; /* or any other color you want */
+    box-shadow: 0 0 5px #ccc;
+}
+
+tbody tr:active {
+    background-color: #aca6a6; /* or any other color you want */
+    box-shadow: 0 0 5px #ccc;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.assetQty {
+    display: flex;
+    justify-content: center;
+}
