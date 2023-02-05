@@ -1,0 +1,11 @@
+.profile {
+    border-radius: .5rem;
+    box-shadow: 0 0 5px rgb(75 74 74);
+    width: 33%;
+    margin: 3rem auto;
+    padding: 1.5rem 1rem;
+}
+.edit-icon {
+    cursor: pointer;
+    height: 1rem;
+}

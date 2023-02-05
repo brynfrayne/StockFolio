@@ -1,0 +1,21 @@
+.form-container {
+    width: fit-content;
+    margin:  auto;
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgb(75, 74, 74);
+    margin: 1rem;
+    padding: 1.5rem;
+}
+.sign-up__span {
+    margin-top: .5rem;
+    text-align: center;
+    font-size: .75rem;
+}
+.sign-up__link {
+    text-decoration: none;
+}
