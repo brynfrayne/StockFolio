@@ -1,11 +1,12 @@
 package com.example.demo.asset;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/asset")
 public class AssetController {
@@ -17,7 +18,8 @@ public class AssetController {
     }
 
     @GetMapping
-    public List<Asset> getAssets() {
+    public List<Asset> getAssets(HttpServletRequest request) {
+        System.out.println("request: " + request);
         return assetService.getAssets();
     }
 

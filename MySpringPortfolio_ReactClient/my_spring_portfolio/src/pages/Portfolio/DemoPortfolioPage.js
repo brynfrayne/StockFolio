@@ -1,32 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AssetTable } from '../../components/AssetTable/AssetTable';
-import { AddAssetModal } from '../../components/AddAssetModal/AddAssetModal';
+import React, { useContext } from 'react';
+import { FetchAssets } from '../../components/FetchAssets/FetchAssets';
+import { Sidebar } from '../../components/Sidebar/Sidebar';
 import { PortfolioContext } from '../../context/PortfolioContext';
-import axios from 'axios';
 
 export function DemoPortfolioPage() {
-    const { assets, setAssets } = useContext(PortfolioContext);
-    const [isLoading, setIsLoading] = useState(true);
+  const { sampleAssets, setSampleAssets } = useContext(PortfolioContext);
 
-    useEffect(() => {
-      axios.get('http://localhost:8080/api/v1/asset')
-        .then(response => {
-          console.log("this is from the main call to get assets:",response);
-          setAssets(response.data);
-          setIsLoading(false);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }, [setAssets]);
-
-    return (
-        <div className="container">
-            <h1>Demo Asset Tracker</h1>
-            <AddAssetModal/>
-            {isLoading ? <div>Loading...</div> :
-            <AssetTable/>
-            }
-        </div>
-    )
+  return (
+    <div className="d-flex vh-100">
+      <Sidebar />
+      <FetchAssets assets={sampleAssets} setAssets={setSampleAssets} apiPath="sample" />
+    </div>
+  );
 }

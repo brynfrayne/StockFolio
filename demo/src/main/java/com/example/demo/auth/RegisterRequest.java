@@ -19,9 +19,6 @@ public class RegisterRequest {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private String address;
-    private String accountType;
-    private String accountStatus;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }

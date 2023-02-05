@@ -1,20 +1,27 @@
 package com.example.demo.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
+@RequestMapping("/api/v1/user")
+@RequiredArgsConstructor
 public class UserController {
+    private UserService userService;
 
-    @GetMapping("/user")
-    public String user() {
-        return "Hello User";
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public User getUser(@PathVariable("id") Long id) {
+        return userService.getUser(id);
     }
 
     @PostMapping("/user")
-    public String userPost() {
-        return "Hello User";
+    public String createUser() {
+        return "User Created";
     }
 
 }

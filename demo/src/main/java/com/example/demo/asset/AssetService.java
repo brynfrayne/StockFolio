@@ -1,5 +1,6 @@
 package com.example.demo.asset;
 
+import com.example.demo.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,18 @@ public class AssetService {
                 !Objects.equals(asset.getAssetQuantity(), assetQuantity)) {
             asset.setAssetQuantity(assetQuantity);
         }
+    }
+
+    public void addStartingCashBalance(User user) {
+        Asset cashAsset = Asset.builder()
+                .name("Cash")
+                .type("Cash")
+                .assetQuantity(10000)
+                .user(user)
+                .build();
+
+        assetRepository.save(cashAsset);
+        return;
     }
 }
 

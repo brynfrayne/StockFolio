@@ -15,7 +15,7 @@ export function AddAssetModal() {
     return (
         <>
         <Button variant="primary" onClick={handleShow}>
-            Add Asset
+            Buy Asset
         </Button>
         <AddAssetForm
             assetToPurchase={assetToPurchase}

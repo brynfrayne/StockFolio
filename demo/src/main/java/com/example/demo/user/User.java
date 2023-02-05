@@ -34,9 +34,6 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private String address;
-    private String accountType;
-    private String accountStatus;
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
