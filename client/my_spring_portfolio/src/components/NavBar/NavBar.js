@@ -1,16 +1,17 @@
 import React, { useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import ChartIcon from '../../assets/stock-chart-icon.png'
 import './NavBar.css'
 
 
 export function NavBar() {
-    console.log("sessionStorage.getItem('token'): " + sessionStorage.getItem('token'));
-    console.log("sessionStorage.length: " + sessionStorage.length)
-
-    const { isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, token } = useContext(AuthContext);
+    const location = useLocation();
     console.log("isAuthenticated: " + isAuthenticated);
+    console.log("token: " + token);
+
     const urlToPageTitleMap = {
         '/': 'Login',
         '/portfolio': 'Portfolio',
@@ -20,8 +21,19 @@ export function NavBar() {
         '/profile': 'Profile',
         '/editprofile': 'Edit Profile',
     }
+    const tokenCheck = () => {
+        if (sessionStorage.getItem('token') !== null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    console.log("tokenCheck: " + tokenCheck());
+    console.log("sessionStorage.getItem('token'): " + sessionStorage.getItem('token'));
+
     const setPageTitle = () => {
-        const path = window.location.pathname;
+        const path = location.pathname;
+        console.log("path: " + path);
         return urlToPageTitleMap[path];
     }
 
@@ -29,13 +41,13 @@ export function NavBar() {
       { title: 'Login', href: '/login', isAuthRequired: false },
       { title: 'Sign Up', href: '/register', isAuthRequired: false },
       { title: 'Demo Portfolio', href: '/demo', isAuthRequired: false },
-      { title: 'Logout', href: '/login', isAuthRequired: true },
+      { title: 'Logout', href: '/logout', isAuthRequired: true },
       { title: 'Profile', href: '/profile', isAuthRequired: true },
       { title: 'Portfolio', href: '/portfolio', isAuthRequired: true },
     ];
 
     const currentPage = window.location.pathname;
-    const links = allLinks.filter(link => link.href !== currentPage && link.isAuthRequired === isAuthenticated);
+    const links = allLinks.filter(link => link.href !== currentPage && link.isAuthRequired === tokenCheck());
 
     const renderDropdownLinks = () => links.map(link => {
       return (
@@ -44,25 +56,6 @@ export function NavBar() {
         </Dropdown.Item>
       );
     });
-
-    const dropdownState = () => {
-      if (isAuthenticated) {
-        return (
-        <>
-        <Dropdown.Item href="/login">Logout</Dropdown.Item>
-        <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-        <Dropdown.Item href="/portfolio">Portfolio</Dropdown.Item>
-        </>
-        )
-      } else {
-        return (
-        <>
-        {renderDropdownLinks()}
-        </>
-        )
-      }
-    }
-
 
     return (
         <nav className="navbar navbar-light bg-light p-3">
@@ -77,7 +70,7 @@ export function NavBar() {
             <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-basic" className="bg-primary"/>
                 <Dropdown.Menu>
-                  {dropdownState()}
+                  {renderDropdownLinks()}
                 </Dropdown.Menu>
             </Dropdown>
         </nav>

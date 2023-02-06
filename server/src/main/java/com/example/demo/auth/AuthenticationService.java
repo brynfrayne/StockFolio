@@ -7,6 +7,7 @@ import com.example.demo.user.UserRepository;
 import com.example.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,10 +47,17 @@ public class AuthenticationService {
                     .build();
             repository.save(user);
             assetService.addStartingCashBalance(user);
-            var jwtToken = jwtService.generateToken(user);
+            int expiresIn = 60 * 60 * 24 * 7; // 7 days
+            var jwtToken = jwtService.generateToken(user, expiresIn);
+            ResponseCookie cookie = ResponseCookie.from("jwt", jwtToken)
+                    .httpOnly(true)
+                    .maxAge(expiresIn)
+                    .path("/")
+                    .build();
             return AuthenticationResponse.builder()
                     .message("User registered successfully")
                     .token(jwtToken)
+//                    .cookie(cookie)
                     .status(HttpStatus.OK)
                     .build();
         }
@@ -75,11 +83,17 @@ public class AuthenticationService {
                             request.getPassword()
                     )
             );
-
-            var jwtToken = jwtService.generateToken(user);
+            int expiresIn = 60 * 60 * 24 * 7; // 7 days
+            var jwtToken = jwtService.generateToken(user, expiresIn);
+            ResponseCookie cookie = ResponseCookie.from("jwt", jwtToken)
+                    .httpOnly(true)
+                    .maxAge(expiresIn)
+                    .path("/")
+                    .build();
 
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+//                    .cookie(cookie)
                     .status(HttpStatus.OK)
                     .build();
         } catch (NoSuchElementException | BadCredentialsException e) {

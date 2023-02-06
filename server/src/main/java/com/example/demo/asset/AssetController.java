@@ -1,5 +1,6 @@
 package com.example.demo.asset;
 
+import com.example.demo.config.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +13,19 @@ import java.util.List;
 public class AssetController {
     @Autowired
     private final AssetService assetService;
+    @Autowired
+    private JwtService jwtService;
 
     public AssetController(AssetService assetService) {
         this.assetService = assetService;
     }
 
     @GetMapping
-    public List<Asset> getAssets(HttpServletRequest request) {
-        System.out.println("request: " + request);
-        return assetService.getAssets();
+    public List<Asset> getAssets(HttpServletRequest request, @RequestHeader("Authorization") String token) {
+        String[] tokenArray = token.split(" ");
+        token = tokenArray[1];
+        String userEmail = jwtService.extractUsernameFromCookie(token);
+        return assetService.getAssetsByEmail(userEmail);
     }
 
     @PostMapping

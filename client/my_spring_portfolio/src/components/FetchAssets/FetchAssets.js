@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import { PortfolioDashboard } from '../../components/PortfolioDashboard/PortfolioDashboard';
 import { AssetTable } from '../../components/AssetTable/AssetTable';
 
 
+
 export function FetchAssets({ assets, setAssets, apiPath }) {
     const [isLoading, setIsLoading] = useState(true);
-    const apiUrl = process.env.REACT_APP_API_URL;
+    // const { token } = useContext(AuthContext);
     const token = sessionStorage.getItem('token');
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    const axiosCallAuthCondition = () => {
+      if (token) {
+        return axios.get(`${apiUrl}/${apiPath}`, {
+          headers: {'Authorization': `Bearer ${token}`},
+        })
+      } else {
+        return axios.get(`${apiUrl}/${apiPath}`)
+      }
+    }
+
 
     useEffect(() => {
-      axios.get(`${apiUrl}/${apiPath}`, {
-        headers: {'Authorization': `Bearer ${token}`}
-      })
+      axiosCallAuthCondition()
       .then(response => {
+        console.log(response.data);
         setAssets(response.data);
         setIsLoading(false);
       })

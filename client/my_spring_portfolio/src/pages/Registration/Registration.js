@@ -15,7 +15,7 @@ export function Registration() {
     const [failedAuthMessage, setFailedAuthMessage] = useState('');
     const [authSent, setAuthSent] = useState(false);
     const navigate = useNavigate();
-    const { setIsAuthenticated, setToken } = useContext(AuthContext);
+    // const { setIsAuthenticated, setToken } = useContext(AuthContext);
     const apiUrl = process.env.REACT_APP_API_URL;
 
 
@@ -35,9 +35,9 @@ export function Registration() {
 
             });
             console.log("this is the response:", response);
+            // setIsAuthenticated(true);
+            // setToken(response.data.cookie);
             sessionStorage.setItem('token', response.data.token);
-            setIsAuthenticated(true);
-            setToken(response.data.token);
             setAuthSent(true);
 
             navigate('/portfolio');

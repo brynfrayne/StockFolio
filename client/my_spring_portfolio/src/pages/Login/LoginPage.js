@@ -5,11 +5,12 @@ import axios from 'axios'
 import './LoginPage.css'
 
 export function LoginPage() {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  // const { setIsAuthenticated, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -19,8 +20,9 @@ export function LoginPage() {
             "password": password
         });
         console.log("this is the response:", response);
+        // setToken(response.data.cookie.value);
         sessionStorage.setItem('token', response.data.token);
-        setIsAuthenticated(true);
+        // setIsAuthenticated(true);
 
         navigate('/portfolio');
     } catch (error) {

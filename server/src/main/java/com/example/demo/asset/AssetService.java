@@ -1,6 +1,8 @@
 package com.example.demo.asset;
 
+import com.example.demo.config.JwtService;
 import com.example.demo.user.User;
+import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +15,14 @@ import java.util.Optional;
 public class AssetService {
 
     private final AssetRepository assetRepository;
+    private JwtService jwtService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AssetService(AssetRepository assetRepository) {
+    public AssetService(AssetRepository assetRepository,
+                        UserRepository userRepository) {
         this.assetRepository = assetRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Asset> getAssets() {
@@ -66,6 +72,11 @@ public class AssetService {
 
         assetRepository.save(cashAsset);
         return;
+    }
+
+    public List<Asset> getAssetsByEmail(String userEmail) {
+        Optional<User> user = userRepository.findByEmail(userEmail);
+        return assetRepository.findAllByUser(user);
     }
 }
 

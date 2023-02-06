@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { LoginPage } from './pages/Login/LoginPage';
+import { Logout } from './pages/Logout/Logout';
 import { DemoPortfolioPage } from './pages/Portfolio/DemoPortfolioPage';
 import { Registration } from './pages/Registration/Registration';
 import { AuthenticatedPortfolioPage } from './pages/Portfolio/AuthenticatedPortfolioPage';
@@ -18,6 +19,7 @@ function App() {
         <Route path="/portfolio" element={<AuthenticatedPortfolioPage />} />
         <Route path="/demo" element={<DemoPortfolioPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path='/editprofile' element={<EditProfile />} />

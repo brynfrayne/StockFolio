@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +18,28 @@ import javax.crypto.SecretKey;
 
 @Service
 public class JwtService {
+
+    public ResponseCookie generateCookie(String token) {
+        return ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .maxAge(60 * 60 * 24 * 7)
+                .path("/")
+                .build();
+    }
+
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
     public String extractUsername(String token) {
+
         return extractClaim(token, Claims::getSubject);
+    }
+    public String extractUsernameFromCookie(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -29,7 +47,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, int expiresIn) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
