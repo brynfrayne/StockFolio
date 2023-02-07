@@ -1,65 +1,55 @@
-import React from 'react';
-import { CashFormInputs } from '../CashFormInputs/CashFormInputs';
+import React, { useState, useEffect } from 'react';
+import { QuantityFormInputs } from '../QuantityFormInputs/QuantityFormInputs';
+import { StockFormInputs } from '../StockFormInputs/StockFormInputs';
+import { formatCurrency } from '../../utils';
+import axios from 'axios';
 
-export function Form({ assetRefs, transactionType }) {
-    const { assetName, assetType, assetQuantity, assetCostBasis } = assetRefs;
-    const buySellOptions = {
-        selectOptions:['Stock','Bond','Real Estate','Currency'],
-        assetNameLabel: 'Asset Name',
-        assetPriceLabel: 'Asset Price',
+export function Form({ transactionType }) {
+    const [selectedOption, setSelectedOption] = useState([]);
+    const [stockPrice, setStockPrice] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+    const financial_modelling_apiKey = process.env.REACT_APP_financial_modelling_apiKey
+    const financial_modelling_apiUrl = process.env.REACT_APP_financial_modelling_apiUrl
+
+
+    const fetchPrice = async (selected) => {
+        const ticker = selected[0].symbol;
+        const api_url = `${financial_modelling_apiUrl}/quote-short/${ticker}?apikey=${financial_modelling_apiKey}`;
+        const response = await axios.get(api_url);
+        const { data } = response;
+        setStockPrice(data[0].price);
+        console.log(data);
     }
-    const transctionTypeOptions = {
-        'buy': {
-            selectOptions:['Stock','Bond','Real Estate','Currency'],
-            assetNameLabel: 'Asset Name',
-            assetPriceLabel: 'Asset Price',
-        },
-        'sell': {
-            selectOptions:['Stock','Bond','Real Estate','Currency'],
-            assetNameLabel: 'Asset Name',
-            assetPriceLabel: 'Asset Price',
-        },
-        'deposit': {
-            selectOptions: ['Cash'],
-            buttonLabel: 'Add Cash',
-            assetNameLabel: 'Cash',
-            assetPriceLabel: 'Cash Amount',
-            assetQuantityLabel: 'Cash Amount'
-        },
-    }
-    const { selectOptions, buttonLabel, assetNameLabel, assetPriceLabel, assetQuantityLabel } = transctionTypeOptions[transactionType.type];
+    useEffect(() => {
+        if (selectedOption.length > 0) {
+            fetchPrice(selectedOption);
+        }
+    }, [selectedOption]);
+
     return (
         <form>
-                { transactionType.type === 'deposit' ? (
-                    <CashFormInputs />
-                ) : (
-                // return (
-                <>
-                <div className="form-group">
-                    <label htmlFor="assetName">Asset Name</label>
-                    <input type="text" className="form-control" id="assetName" placeholder="Enter asset name" ref={assetName} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="assetType">Asset Type</label>
-                    <select className="form-control" id="assetType" ref={assetType} >
-                        <option value="">Select an Asset Type</option>
-                        {selectOptions.map((option, index) => {
-                            return (
-                                <option key={index} value={option}>{option}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="assetQuantity">{assetQuantityLabel}</label>
-                    <input type="text" className="form-control" id="assetQuantity" placeholder="Enter asset quantity" ref={assetQuantity}/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="assetCostBasis">Asset Price</label>
-                    <input type="text" className="form-control" id="assetCostBasis" placeholder="Enter current asset price" ref={assetCostBasis}/>
-                </div>
-                </>
-                // )
+            { transactionType.type === 'deposit' ? (
+                <QuantityFormInputs setQuantity={setQuantity} quantity={quantity} displayInDollars />
+            ) : (
+            <>
+            <div className="form-group mb-2">
+                <label className="mb-1" htmlFor="assetName">Asset Name</label>
+                <StockFormInputs selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+            </div>
+            <QuantityFormInputs setQuantity={setQuantity} quantity={quantity} />
+            <div className="form-group d-flex justify-content-between mt-3">
+                <label htmlFor="assetPrice">Asset Price: </label>
+                {stockPrice > 0 ?
+                <p>{formatCurrency(stockPrice)}</p>
+                :
+                <p>Enter a valid ticker</p>
+                }
+            </div>
+            <div className="form-group d-flex justify-content-between mt-1">
+                <label htmlFor="totalCost">Total Cost: </label>
+                <p>{formatCurrency(stockPrice * quantity)}</p>
+            </div>
+            </>
             )}
         </form>
 

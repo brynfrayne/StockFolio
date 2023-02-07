@@ -1,16 +1,12 @@
 import React, { useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
 import ChartIcon from '../../assets/stock-chart-icon.png'
 import './NavBar.css'
 
 
 export function NavBar() {
-    const { isAuthenticated, token } = useContext(AuthContext);
     const location = useLocation();
-    console.log("isAuthenticated: " + isAuthenticated);
-    console.log("token: " + token);
 
     const urlToPageTitleMap = {
         '/': 'Login',
@@ -28,12 +24,9 @@ export function NavBar() {
             return false;
         }
     }
-    console.log("tokenCheck: " + tokenCheck());
-    console.log("sessionStorage.getItem('token'): " + sessionStorage.getItem('token'));
 
     const setPageTitle = () => {
         const path = location.pathname;
-        console.log("path: " + path);
         return urlToPageTitleMap[path];
     }
 

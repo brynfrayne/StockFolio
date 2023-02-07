@@ -8,7 +8,6 @@ import { AssetTable } from '../../components/AssetTable/AssetTable';
 
 export function FetchAssets({ assets, setAssets, apiPath }) {
     const [isLoading, setIsLoading] = useState(true);
-    // const { token } = useContext(AuthContext);
     const token = sessionStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -22,11 +21,9 @@ export function FetchAssets({ assets, setAssets, apiPath }) {
       }
     }
 
-
     useEffect(() => {
       axiosCallAuthCondition()
       .then(response => {
-        console.log(response.data);
         setAssets(response.data);
         setIsLoading(false);
       })

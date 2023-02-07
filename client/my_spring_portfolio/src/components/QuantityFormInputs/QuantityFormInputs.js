@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { formatCurrency } from '../../utils';
-import './CashFormInputs.css';
+import './QuantityFormInputs.css';
 
-export function CashFormInputs() {
-    const [cash, setCash] = useState(0);
+export function QuantityFormInputs({ quantity, setQuantity, displayInDollars=false }) {
     const [shadow, setShadow] = useState(false);
     const [clickCount, setClickCount] = useState(0);
     const [increment, setIncrement] = useState(1);
@@ -12,8 +11,8 @@ export function CashFormInputs() {
     useEffect(() => {
         return () => clearTimeout(timer);
     }, [timer]);
-    
-    const adjustCash = (direction) => {
+
+    const adjustQuantity = (direction) => {
         if (clickCount >= 8) {
             setIncrement(1000);
         } else if (clickCount >= 5) {
@@ -29,23 +28,30 @@ export function CashFormInputs() {
             }
         }, 1000));
         setClickCount(prevCount => prevCount + 1);
-        if (cash > 0 && direction === '-') {
-            return setCash(cash - increment);
+        if (quantity > 0 && direction === '-') {
+            return setQuantity(quantity - increment);
         } else if (direction === '+') {
-            return setCash(cash + increment);
-        } else if (cash === 0 && direction === '-') {
+            return setQuantity(quantity + increment);
+        } else if (quantity === 0 && direction === '-') {
             setShadow(true);
             setTimeout(() => setShadow(false), 1000);
         }
     };
+    const checkForDollarSign = () => {
+        if (displayInDollars) {
+            return formatCurrency(quantity);
+        } else {
+            return quantity;
+        }
+    };
 
     return (
-        <div className="form-group d-flex align-items-center justify-content-between">
+        <div className="form-group d-flex align-items-center justify-content-between mt-2">
             <label htmlFor="assetCostBasis">Quantity</label>
-            <div className={`d-flex align-items-center`}>
-                <span className="p-2" onClick={() => adjustCash('-')}>-</span>
-                <span className={`input-group-text ${shadow ? 'shadow' : ''}`} >{formatCurrency(cash)}</span>
-                <span className="p-2" onClick={() => adjustCash('+')}>+</span>
+            <div className="d-flex align-items-center">
+                <span className="p-2" onClick={() => adjustQuantity('-')}>-</span>
+                <span className={`input-group-text ${shadow ? 'shadow' : ''}`} >{checkForDollarSign()}</span>
+                <span className="p-2" onClick={() => adjustQuantity('+')}>+</span>
             </div>
         </div>
     );

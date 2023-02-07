@@ -14,7 +14,7 @@ export function TransactionModal({ transactionType }) {
 
     return (
         <>
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant={transactionType.color} onClick={handleShow}>
             {transactionType.name}
         </Button>
         <TransactionForm

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TransactionModal } from '../TransactionModal/TransactionModal';
 import { CollapseIcon } from '../SidebarCollapseIcon/SidebarCollapseIcon';
-import { Button } from 'react-bootstrap';
 import './Sidebar.css';
 
 export function Sidebar() {
@@ -14,24 +13,23 @@ export function Sidebar() {
             return "sidebar bg-light px-3 w-max-content"
         }
     }
-
     const transactionTypes = [
         {
             name: "Buy Asset",
             type: "buy",
+            color: "primary"
         },
         {
             name: "Sell Asset",
             type: "sell",
+            color: "danger"
         },
         {
             name: "Add Cash",
             type: "deposit",
+            color: "success"
         }
     ]
-
-
-
 
     return (
         <div className="d-flex">
@@ -42,22 +40,8 @@ export function Sidebar() {
                             <li className={sidebarOpen ? "pt-3" : "hidden-list"} key={index}>
                                 <TransactionModal transactionType={transactionType} />
                             </li>
-                        )
-                    }
+                        )}
                     )}
-                    {/* <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
-                        <Button variant="primary" >
-                            Add Cash
-                        </Button>
-                    </li>
-                    <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
-                        <TransactionModal/>
-                    </li>
-                    <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
-                        <Button variant="primary" >
-                            Sell Asset
-                        </Button>
-                    </li> */}
                 </ul>
             </div>
             <CollapseIcon sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>

@@ -57,7 +57,7 @@ export function TransactionForm({
             Close
         </Button>
         <Button variant="primary" onClick={handleBuyAsset}>
-            Buy Asset
+            {transactionType.name}
         </Button>
         </Modal.Footer>
     </Modal>
