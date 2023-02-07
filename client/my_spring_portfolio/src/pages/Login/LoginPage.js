@@ -1,11 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
 import axios from 'axios'
 import './LoginPage.css'
 
 export function LoginPage() {
-  // const { setIsAuthenticated, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,9 +18,7 @@ export function LoginPage() {
             "password": password
         });
         console.log("this is the response:", response);
-        // setToken(response.data.cookie.value);
         sessionStorage.setItem('token', response.data.token);
-        // setIsAuthenticated(true);
 
         navigate('/portfolio');
     } catch (error) {

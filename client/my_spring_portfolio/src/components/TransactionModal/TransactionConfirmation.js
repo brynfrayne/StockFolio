@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { formatCurrency } from '../../utils';
 
 
-export function AddAssetConfirmation({ assetToPurchase, showConfirmation, setShowConfirmation, setShow, purchaseAmount }) {
+export function TransactionConfirmation({ assetToPurchase, showConfirmation, setShowConfirmation, setShow, purchaseAmount }) {
     const { setAssets } = useContext(PortfolioContext);
 
     const handleCancel = () => {

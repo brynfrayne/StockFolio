@@ -4,7 +4,16 @@ import { Form } from '../Form/Form';
 import { formattedDate } from '../../utils';
 
 
-export function AddAssetForm({ assetToPurchase, setAssetToPurchase, show, setShow, setShowConfirmation, setPurchaseAmount }) {
+export function TransactionForm({
+                    assetToPurchase,
+                    setAssetToPurchase,
+                    show,
+                    setShow,
+                    setShowConfirmation,
+                    setPurchaseAmount,
+                    transactionType
+                }
+                ) {
 
     const assetRefs = {
         assetName: useRef(null),
@@ -18,13 +27,13 @@ export function AddAssetForm({ assetToPurchase, setAssetToPurchase, show, setSho
     const handleBuyAsset = () => {
         const amount = parseFloat(assetRefs.assetQuantity.current.value) * parseFloat(assetRefs.assetCostBasis.current.value);
         setPurchaseAmount(amount);
-        updateassetToPurchase(assetRefs);
+        updateAssetToPurchase(assetRefs);
         setShowConfirmation(true);
         setShow(false);
         console.log(assetToPurchase)
     }
 
-    const updateassetToPurchase = (assetRefs) => {
+    const updateAssetToPurchase = (assetRefs) => {
         setAssetToPurchase({
             name: assetRefs.assetName.current.value,
             type: assetRefs.assetType.current.value,
@@ -38,10 +47,10 @@ export function AddAssetForm({ assetToPurchase, setAssetToPurchase, show, setSho
     return (
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-        <Modal.Title>Purchase Asset(s)</Modal.Title>
+        <Modal.Title>{transactionType.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form assetRefs={assetRefs}/>
+            <Form assetRefs={assetRefs} transactionType={transactionType}/>
         </Modal.Body>
         <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

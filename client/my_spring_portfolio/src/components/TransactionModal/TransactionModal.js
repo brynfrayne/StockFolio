@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { AddAssetConfirmation } from './AddAssetConfirmation';
-import { AddAssetForm } from './AddAssetForm';
+import { TransactionConfirmation } from './TransactionConfirmation';
+import { TransactionForm } from './TransactionForm';
 
 
-export function AddAssetModal() {
+export function TransactionModal({ transactionType }) {
     const [show, setShow] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [purchaseAmount, setPurchaseAmount] = useState(0);
@@ -15,9 +15,10 @@ export function AddAssetModal() {
     return (
         <>
         <Button variant="primary" onClick={handleShow}>
-            Buy Asset
+            {transactionType.name}
         </Button>
-        <AddAssetForm
+        <TransactionForm
+            transactionType={transactionType}
             assetToPurchase={assetToPurchase}
             show={show}
             setAssetToPurchase={setAssetToPurchase}
@@ -25,7 +26,7 @@ export function AddAssetModal() {
             setShowConfirmation={setShowConfirmation}
             setPurchaseAmount={setPurchaseAmount}
         />
-        <AddAssetConfirmation
+        <TransactionConfirmation
             assetToPurchase={assetToPurchase}
             showConfirmation={showConfirmation}
             setShowConfirmation={setShowConfirmation}

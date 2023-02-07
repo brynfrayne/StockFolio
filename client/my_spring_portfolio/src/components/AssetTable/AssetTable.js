@@ -38,7 +38,7 @@ export function AssetTable({ assets }) {
                 <td className="text-center">{asset.type}</td>
                 <td className="text-center">{asset.assetQuantity}</td>
                 <td className="text-center">{formatCurrency(asset.currentAssetPrice)}</td>
-                <td className={`text-center ${asset.percentGain > 0 ? 'text-success' : 'text-danger'}`}>{formatPercentage(asset.percentGain)}</td>
+                <td className={`text-center ${asset.percentGain >= 0 ? 'text-success' : 'text-danger'}`}>{formatPercentage(asset.percentGain)}</td>
             </tr>
         ))}
         </tbody>

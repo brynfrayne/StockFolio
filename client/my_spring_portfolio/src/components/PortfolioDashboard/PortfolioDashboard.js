@@ -21,15 +21,19 @@ export function PortfolioDashboard({ assets }) {
         return 10000 - sumHoldingCostBasis();
     }
     const returnOnInvestment = () => {
+        if (sumHoldingCostBasis() === 0) {
+            return "0.00%";
+        }
         return formatPercentage((sumCurrentHoldingsValue() - sumHoldingCostBasis())/sumHoldingCostBasis());
     }
     const returnStyles = () => {
-        if (returnOnInvestment() > 0) {
-            return "text-center text-success";
-        } else {
+        if (returnOnInvestment() < 0) {
             return "text-center text-danger";
+        } else {
+            return "text-center text-success";
         }
     }
+
     return (
         <div className="container">
             <table className="table">

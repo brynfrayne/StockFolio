@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AddAssetModal } from '../AddAssetModal/AddAssetModal';
+import { TransactionModal } from '../TransactionModal/TransactionModal';
 import { CollapseIcon } from '../SidebarCollapseIcon/SidebarCollapseIcon';
 import { Button } from 'react-bootstrap';
 import './Sidebar.css';
@@ -15,24 +15,49 @@ export function Sidebar() {
         }
     }
 
+    const transactionTypes = [
+        {
+            name: "Buy Asset",
+            type: "buy",
+        },
+        {
+            name: "Sell Asset",
+            type: "sell",
+        },
+        {
+            name: "Add Cash",
+            type: "deposit",
+        }
+    ]
+
+
+
 
     return (
         <div className="d-flex">
             <div className={sideBarStyles()}>
                 <ul className="list-unstyled d-flex flex-column justify-content-center vh-100">
-                    <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
+                    {transactionTypes.map((transactionType, index) => {
+                        return (
+                            <li className={sidebarOpen ? "pt-3" : "hidden-list"} key={index}>
+                                <TransactionModal transactionType={transactionType} />
+                            </li>
+                        )
+                    }
+                    )}
+                    {/* <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
                         <Button variant="primary" >
                             Add Cash
                         </Button>
                     </li>
                     <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
-                        <AddAssetModal/>
+                        <TransactionModal/>
                     </li>
                     <li className={sidebarOpen ? "pt-3" : "hidden-list"}>
                         <Button variant="primary" >
                             Sell Asset
                         </Button>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             <CollapseIcon sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>

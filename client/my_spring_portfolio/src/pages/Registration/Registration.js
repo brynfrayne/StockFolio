@@ -1,8 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
 
 export function Registration() {
     const [email, setEmail] = useState('');
@@ -15,7 +13,6 @@ export function Registration() {
     const [failedAuthMessage, setFailedAuthMessage] = useState('');
     const [authSent, setAuthSent] = useState(false);
     const navigate = useNavigate();
-    // const { setIsAuthenticated, setToken } = useContext(AuthContext);
     const apiUrl = process.env.REACT_APP_API_URL;
 
 
@@ -35,8 +32,6 @@ export function Registration() {
 
             });
             console.log("this is the response:", response);
-            // setIsAuthenticated(true);
-            // setToken(response.data.cookie);
             sessionStorage.setItem('token', response.data.token);
             setAuthSent(true);
 
