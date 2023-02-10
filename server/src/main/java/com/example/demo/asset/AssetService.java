@@ -29,12 +29,24 @@ public class AssetService {
         return assetRepository.findAll();
     }
 
-    public void addNewAsset(Asset asset) {
-        Optional<Asset> assetByNameAndType = assetRepository.findAssetByNameAndType(asset.getName(), asset.getType());
+    public void addNewAsset(Asset asset, String userEmail) {
+        Optional<Asset> assetByName = assetRepository.findAssetByName(asset.getName());
 
-        if (assetByNameAndType.isPresent()) {
-            throw new IllegalStateException("asset already exists. add to preexisting asset");
+        if (assetByName.isPresent()) {
+            throw new IllegalStateException("Asset already exists. Add to pre-existing asset.");
         }
+
+        Optional<User> user = userRepository.findByEmail(userEmail);
+        if (!user.isPresent()) {
+            throw new IllegalStateException("User with email " + userEmail + " does not exist");
+        }
+
+        if (user.get().getCashBalance() < asset.getAssetQuantity() * asset.getCurrentAssetPrice()) {
+            throw new IllegalStateException("User does not have enough cash to purchase asset");
+        }
+
+        user.get().setCashBalance(user.get().getCashBalance() - asset.getAssetQuantity() * asset.getCurrentAssetPrice());
+        asset.setUser(user.get());
         assetRepository.save(asset);
     }
 
@@ -60,18 +72,6 @@ public class AssetService {
                 !Objects.equals(asset.getAssetQuantity(), assetQuantity)) {
             asset.setAssetQuantity(assetQuantity);
         }
-    }
-
-    public void addStartingCashBalance(User user) {
-        Asset cashAsset = Asset.builder()
-                .name("Cash")
-                .type("Cash")
-                .assetQuantity(10000)
-                .user(user)
-                .build();
-
-        assetRepository.save(cashAsset);
-        return;
     }
 
     public List<Asset> getAssetsByEmail(String userEmail) {

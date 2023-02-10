@@ -41,12 +41,11 @@ public class AuthenticationService {
                     .email(request.getEmail())
                     .firstName(request.getFirstName())
                     .lastName(request.getLastName())
-                    .phoneNumber(request.getPhoneNumber())
+                    .cashBalance(10000.00)
                     .password(encodedPassword)
                     .role(Role.USER)
                     .build();
             repository.save(user);
-            assetService.addStartingCashBalance(user);
             int expiresIn = 60 * 60 * 24 * 7; // 7 days
             var jwtToken = jwtService.generateToken(user, expiresIn);
             ResponseCookie cookie = ResponseCookie.from("jwt", jwtToken)

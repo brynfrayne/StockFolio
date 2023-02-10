@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
+    private Double cashBalance;
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -44,6 +44,11 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+    public void setCashBalance(Double cashBalance) {
+        this.cashBalance = cashBalance;
+    }
+    public Double getCashBalance() { return cashBalance; }
+
     @Override
     public String getPassword() { return password; }
     @Override

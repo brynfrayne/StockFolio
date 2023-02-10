@@ -24,20 +24,20 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "portfolio_seq_gen")
     @SequenceGenerator(name = "portfolio_seq_gen", sequenceName = "portfolio_seq", allocationSize = 1)
     private long id;
+    @NotBlank
     private String name;
-    private String type;
+    @NotBlank
+    private String ticker;
+    @Positive
     private int assetQuantity;
+    @Positive
     private double currentAssetPrice;
+    @Positive
     private double assetCostBasis;
-    @Transient
-    private double currentTotalValue;
-    @Transient
-    private double totalCostBasis;
-    @Transient
-    private double percentGain;
+    @NotNull
     private LocalDate datePurchased;
-
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
+
 }

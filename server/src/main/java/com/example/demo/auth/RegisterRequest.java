@@ -19,6 +19,7 @@ public class RegisterRequest {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private Double cashBalance;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }

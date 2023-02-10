@@ -13,6 +13,7 @@ import java.util.function.Function;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.crypto.SecretKey;
 
@@ -29,6 +30,11 @@ public class JwtService {
 
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
+    public String parseToken(@RequestHeader("Authorization") String token) {
+        String[] tokenArray = token.split(" ");
+        token = tokenArray[1];
+        return extractUsernameFromCookie(token);
+    }
     public String extractUsername(String token) {
 
         return extractClaim(token, Claims::getSubject);
