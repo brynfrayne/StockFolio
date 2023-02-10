@@ -1,0 +1,4 @@
+.glow-shadow {
+    box-shadow: 0 0 7.5px rgb(85, 85, 85);
+    transition: box-shadow 0.75s ease-in-out;
+    }

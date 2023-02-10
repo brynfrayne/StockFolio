@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
+import { UserContext } from '../../context/UserContext'
 import ChartIcon from '../../assets/stock-chart-icon.png'
 import './NavBar.css'
 
 
 export function NavBar() {
     const location = useLocation();
+    const { user } = useContext(UserContext)
 
     const urlToPageTitleMap = {
         '/': 'Login',
@@ -24,6 +26,7 @@ export function NavBar() {
             return false;
         }
     }
+    console.log(user)
 
     const setPageTitle = () => {
         const path = location.pathname;

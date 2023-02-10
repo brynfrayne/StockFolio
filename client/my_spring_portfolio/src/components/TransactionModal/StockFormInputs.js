@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import axios from 'axios';
 
 export function StockFormInputs({ selectedOption, setSelectedOption }) {
     const [suggestions, setSuggestions] = useState([]);
+    const stockAutoCompleteUrl = process.env.REACT_APP_autoComplete_StockName_apiUrl
 
-    const fetchSuggestions = async (AssetValue) => {
-        const response = await axios.get(`https://ticker-2e1ica8b9.now.sh/keyword/${AssetValue}`);
+    const fetchSuggestions = async (AssetName) => {
+        const response = await axios.get(`${stockAutoCompleteUrl}/${AssetName}`);
         const { data } = response;
         setSuggestions(data);
+        console.log(data);
     }
 
     const handleChange = (selected) => {
@@ -25,7 +27,7 @@ export function StockFormInputs({ selectedOption, setSelectedOption }) {
                 onSearch={fetchSuggestions}
                 onChange={handleChange}
                 options={suggestions}
-                placeholder="Search for a stock..."
+                placeholder="Search for a stock by name..."
                 renderMenuItemChildren={(option, props) => (
                     <>
                     <div>

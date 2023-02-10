@@ -1,23 +1,34 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import editIcon from '../../assets/edit-button.svg'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
+import { formatCurrency } from '../../utils'
+import { UserContext } from '../../context/UserContext'
+import Spinner from 'react-bootstrap/Spinner';
+import axios from 'axios'
 import './Profile.css'
 
 export function UserProfile() {
-    const [user, setUser] = useState({})
-    const { isAuthenticated } = useContext(AuthContext)
-    const sampleUser = {
-        name: 'John Doe',
-        email: 'johndoe@abc.com',
-        phone: '123-456-7890',
-        address: '123 Main St, Anytown, USA'
-    }
+    const { user, setUser } = useContext(UserContext)
+    const apiUrl = process.env.REACT_APP_API_URL
+    const token = sessionStorage.getItem('token')
+    
+
     useEffect(() => {
-        if (isAuthenticated === false) {
-            setUser(sampleUser)
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/user`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                setUser(response.data)
+                console.log(response.data)
+            } catch (error) {
+                console.log(error)
+            }
         }
-    }, [isAuthenticated])
+        fetchUser()
+    }, [token])
+    if (!user) return ( <Spinner /> )
+
 
     return (
         <div className="container bg-light profile">
@@ -29,7 +40,7 @@ export function UserProfile() {
             <div key={user.id}>
                 <div className="d-flex justify-content-between">
                     <p>Name</p>
-                    <p>{user.name}</p>
+                    <p>{user.firstName} {user.lastName}</p>
                 </div>
                 <div className="d-flex justify-content-between">
                     <p>Email</p>
@@ -40,12 +51,8 @@ export function UserProfile() {
                     </p>
                 </div>
                 <div className="d-flex justify-content-between">
-                    <p>Phone</p>
-                    <p>{user.phone}</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                    <p>Address</p>
-                    <p>{user.address}</p>
+                    <p>Cash Balance</p>
+                    <p>{user.cashBalance ? formatCurrency(user.cashBalance) : 0}</p>
                 </div>
             </div>
         </div>

@@ -1,40 +1,48 @@
-import { React, useContext } from 'react';
+import { React, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { PortfolioContext } from '../../context/PortfolioContext';
 import { Modal, Button } from 'react-bootstrap';
 import { formatCurrency } from '../../utils';
 
 
-export function TransactionConfirmation({ assetToPurchase, showConfirmation, setShowConfirmation, setShow, purchaseAmount }) {
-    const { setAssets } = useContext(PortfolioContext);
+export function TransactionConfirmation({
+                            assetToPurchase,
+                            showConfirmation,
+                            setShowConfirmation,
+                            setShow,
+                        }
+                        ) {
+    const { setAssetToAdd } = useContext(PortfolioContext);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleCancel = () => {
         setShowConfirmation(false);
     }
+    console.log(assetToPurchase);
+    const handleConfirm = async () => {
 
-    const handleConfirm = () => {
-        axios.post('http://localhost:8080/api/v1/asset',
-            assetToPurchase
-        )
-        .then(_response => {
-            axios.get('http://localhost:8080/api/v1/asset')
-            .then(response => {
-                setAssets(response.data);
-            })
-        })
-        .catch(error => {
+        try {
+            const response = await axios.post(`${apiUrl}/asset`,
+                assetToPurchase
+            );
+            console.log(response);
+            setShowConfirmation(false);
+            setShow(false);
+            setAssetToAdd(response.data)
+        }
+        catch (error) {
             console.log(error);
-        });
-        setShowConfirmation(false);
-        setShow(false);
+        }
     }
+    const { name, ticker, assetQuantity, assetCostBasis } = assetToPurchase;
+
     return (
         <Modal show={showConfirmation} onHide={handleCancel}>
             <Modal.Header closeButton>
             <Modal.Title>Confirm Purchase</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to purchase {assetToPurchase.assetQuantity} units of {assetToPurchase.assetName} {assetToPurchase.assetType} for {formatCurrency(purchaseAmount)}?
+                Are you sure you want to purchase {assetQuantity} unit(s) of {ticker} for {formatCurrency(assetQuantity*assetCostBasis)}?
             </Modal.Body>
             <Modal.Footer>
             <Button variant="secondary" onClick={handleCancel}>

@@ -17,27 +17,27 @@ export function Sidebar() {
         {
             name: "Buy Asset",
             type: "buy",
-            color: "primary"
+            color: "light"
         },
         {
             name: "Sell Asset",
             type: "sell",
-            color: "danger"
+            color: "light"
         },
         {
             name: "Add Cash",
             type: "deposit",
-            color: "success"
+            color: "light"
         }
     ]
 
     return (
         <div className="d-flex">
             <div className={sideBarStyles()}>
-                <ul className="list-unstyled d-flex flex-column justify-content-center vh-100">
+                <ul className="list-unstyled mt-0 d-flex flex-column justify-content-center vh-100">
                     {transactionTypes.map((transactionType, index) => {
                         return (
-                            <li className={sidebarOpen ? "pt-3" : "hidden-list"} key={index}>
+                            <li className={sidebarOpen ? "py-3" : "hidden-list"} key={index}>
                                 <TransactionModal transactionType={transactionType} />
                             </li>
                         )}

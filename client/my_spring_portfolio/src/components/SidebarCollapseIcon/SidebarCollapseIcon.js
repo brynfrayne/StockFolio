@@ -5,7 +5,7 @@ import './SidebarCollapseIcon.css';
 
 export function CollapseIcon({sidebarOpen, setSidebarOpen}) {
     return (
-        <div className={`d-flex flex-column justify-content-center ${!sidebarOpen ? 'sidebar-closed__arrow' : ''}`}>
+        <div className={`d-flex py-3 flex-column justify-content-center ${!sidebarOpen ? 'sidebar-closed__arrow' : ''}`}>
             <div
                 className="sidebar-arrow__container"
                 onClick={() => setSidebarOpen(!sidebarOpen)}

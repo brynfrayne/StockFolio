@@ -2,10 +2,9 @@ ul {
     width: max-content;
 }
 .sidebar {
-    /* transition: transform 0.5s ease-in-out; */
     transition: width 3.5s ease-in-out;
     background-color: #f5f5f5;
-    padding: 1rem;
+    padding: 0 1rem;
     width: max-content;
     visibility: visible;
     opacity: 1;

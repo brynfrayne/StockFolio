@@ -7,4 +7,6 @@ export const PortfolioContext = createContext({
     setSampleAssets: () => {},
     currentAssetState: {},
     setCurrentAssetState: () => {},
+    assetToAdd: {},
+    setAssetToAdd: () => {},
 });

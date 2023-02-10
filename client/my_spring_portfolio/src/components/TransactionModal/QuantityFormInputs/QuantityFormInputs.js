@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { formatCurrency } from '../../utils';
+import { formatCurrency } from '../../../utils';
 import './QuantityFormInputs.css';
 
 export function QuantityFormInputs({ quantity, setQuantity, displayInDollars=false }) {
@@ -7,10 +7,6 @@ export function QuantityFormInputs({ quantity, setQuantity, displayInDollars=fal
     const [clickCount, setClickCount] = useState(0);
     const [increment, setIncrement] = useState(1);
     const [timer, setTimer] = useState(null);
-
-    useEffect(() => {
-        return () => clearTimeout(timer);
-    }, [timer]);
 
     const adjustQuantity = (direction) => {
         if (clickCount >= 8) {
@@ -44,6 +40,10 @@ export function QuantityFormInputs({ quantity, setQuantity, displayInDollars=fal
             return quantity;
         }
     };
+
+    useEffect(() => {
+        return () => clearTimeout(timer);
+    }, [timer]);
 
     return (
         <div className="form-group d-flex align-items-center justify-content-between mt-2">

@@ -1,45 +1,37 @@
-import { React, useRef } from 'react';
+import { React, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Form } from '../Form/Form';
+import { TransactionFormInputs } from './TransactionFormInputs';
 import { formattedDate } from '../../utils';
 
 
 export function TransactionForm({
-                    assetToPurchase,
                     setAssetToPurchase,
                     show,
                     setShow,
                     setShowConfirmation,
-                    setPurchaseAmount,
                     transactionType
                 }
                 ) {
-
-    const assetRefs = {
-        assetName: useRef(null),
-        assetType: useRef(null),
-        assetQuantity: useRef(null),
-        assetCostBasis: useRef(null),
-      };
+    const [selectedOption, setSelectedOption] = useState([]);
+    const [stockPrice, setStockPrice] = useState(0);
+    const [quantity, setQuantity] = useState(0);
 
     const handleClose = () => setShow(false);
 
     const handleBuyAsset = () => {
-        const amount = parseFloat(assetRefs.assetQuantity.current.value) * parseFloat(assetRefs.assetCostBasis.current.value);
-        setPurchaseAmount(amount);
-        updateAssetToPurchase(assetRefs);
+        console.log('this is the handleBuyAsset function')
+        updateAssetToPurchase();
         setShowConfirmation(true);
         setShow(false);
-        console.log(assetToPurchase)
     }
 
-    const updateAssetToPurchase = (assetRefs) => {
+    const updateAssetToPurchase = () => {
         setAssetToPurchase({
-            name: assetRefs.assetName.current.value,
-            type: assetRefs.assetType.current.value,
-            assetQuantity: parseInt(assetRefs.assetQuantity.current.value),
-            currentAssetPrice: parseFloat(assetRefs.assetCostBasis.current.value),
-            assetCostBasis: parseFloat(assetRefs.assetCostBasis.current.value),
+            name: selectedOption[0].name,
+            ticker: selectedOption[0].symbol,
+            assetQuantity: parseInt(quantity),
+            currentAssetPrice: parseFloat(stockPrice),
+            assetCostBasis: parseFloat(stockPrice),
             datePurchased: formattedDate
         });
     }
@@ -50,7 +42,15 @@ export function TransactionForm({
         <Modal.Title>{transactionType.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form assetRefs={assetRefs} transactionType={transactionType}/>
+            <TransactionFormInputs
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+                stockPrice={stockPrice}
+                setStockPrice={setStockPrice}
+                quantity={quantity}
+                setQuantity={setQuantity}
+                transactionType={transactionType}
+            />
         </Modal.Body>
         <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

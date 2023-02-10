@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import { PortfolioDashboard } from '../../components/PortfolioDashboard/PortfolioDashboard';
+import { PortfolioContext } from '../../context/PortfolioContext';
 import { AssetTable } from '../../components/AssetTable/AssetTable';
 
 
 
 export function FetchAssets({ assets, setAssets, apiPath }) {
     const [isLoading, setIsLoading] = useState(true);
+    const { assetToAdd } = useContext(PortfolioContext);
     const token = sessionStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -26,11 +28,12 @@ export function FetchAssets({ assets, setAssets, apiPath }) {
       .then(response => {
         setAssets(response.data);
         setIsLoading(false);
+        console.log(response.data);
       })
       .catch(error => {
         console.log(error);
       });
-    }, [apiPath, apiUrl, setAssets, token]);
+    }, [apiPath, apiUrl, setAssets, token, assetToAdd]);
 
     return isLoading ? (
       <div className="d-flex justify-content-center m-3">

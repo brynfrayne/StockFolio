@@ -24,7 +24,7 @@ export function PortfolioDashboard({ assets }) {
         if (sumHoldingCostBasis() === 0) {
             return "0.00%";
         }
-        return formatPercentage((sumCurrentHoldingsValue() - sumHoldingCostBasis())/sumHoldingCostBasis());
+        return (sumCurrentHoldingsValue() - sumHoldingCostBasis())/sumHoldingCostBasis();
     }
     const returnStyles = () => {
         if (returnOnInvestment() < 0) {
@@ -50,7 +50,7 @@ export function PortfolioDashboard({ assets }) {
                         <td className="text-center">{formatCurrency(currentCashBalance() + sumCurrentHoldingsValue())}</td>
                         <td className="text-center">{formatCurrency(currentCashBalance())}</td>
                         <td className="text-center">{formatCurrency(sumCurrentHoldingsValue())}</td>
-                        <td className={returnStyles()}>{returnOnInvestment()}</td>
+                        <td className={returnStyles()}>{formatPercentage(returnOnInvestment())}</td>
                     </tr>
                 </tbody>
             </table>
