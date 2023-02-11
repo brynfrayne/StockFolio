@@ -12,7 +12,7 @@ export function FetchAssets({ assets, setAssets, apiPath }) {
     const { assetToAdd } = useContext(PortfolioContext);
     const token = sessionStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
-
+    console.log(assetToAdd)
     const axiosCallAuthCondition = () => {
       if (token) {
         return axios.get(`${apiUrl}/${apiPath}`, {
@@ -28,7 +28,6 @@ export function FetchAssets({ assets, setAssets, apiPath }) {
       .then(response => {
         setAssets(response.data);
         setIsLoading(false);
-        console.log(response.data);
       })
       .catch(error => {
         console.log(error);

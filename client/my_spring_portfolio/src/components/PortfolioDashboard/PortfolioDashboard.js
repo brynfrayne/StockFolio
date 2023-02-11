@@ -5,34 +5,27 @@ import { UserContext } from '../../context/UserContext';
 export function PortfolioDashboard({ assets }) {
     const { user } = useContext(UserContext);
 
-    const sumHoldingCostBasis = () => {
+    const totalCostBasis = () => {
         let sum = 0;
         assets.forEach(asset => {
-            sum += asset.totalCostBasis;
+            let assetSum = asset.assetQuantity*asset.assetCostBasis;
+            sum += assetSum;
         })
         return sum;
     }
-    const sumCurrentHoldingsValue = () => {
+    const totalCurrentValue = () => {
         let sum = 0;
         assets.forEach(asset => {
-            sum += asset.currentTotalValue;
+            sum += asset.assetQuantity*asset.currentAssetPrice;
         })
         return sum;
-    }
-    
-    const currentCashBalance = () => {
-        const cashBalance = user ? user.cashBalance : 10000;
-        return cashBalance - sumHoldingCostBasis();
     }
     const returnOnInvestment = () => {
-        console.log(sumHoldingCostBasis());
-        if (sumHoldingCostBasis() === 0) {
-            console.log("0.00%");
+        if (totalCostBasis() === 0) {
             return "0.00%";
         }
-        return formatPercentage((sumCurrentHoldingsValue() - sumHoldingCostBasis())/sumHoldingCostBasis());
+        return formatPercentage((totalCurrentValue() - totalCostBasis())/totalCostBasis());
     }
-
     const returnStyles = () => {
         if (returnOnInvestment() < 0) {
             return "text-center text-danger";
@@ -54,9 +47,9 @@ export function PortfolioDashboard({ assets }) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="text-center">{formatCurrency(currentCashBalance() + sumCurrentHoldingsValue())}</td>
-                        <td className="text-center">{formatCurrency(currentCashBalance())}</td>
-                        <td className="text-center">{formatCurrency(sumCurrentHoldingsValue())}</td>
+                        <td className="text-center">{formatCurrency(user.cashBalance + totalCurrentValue())}</td>
+                        <td className="text-center">{formatCurrency(user.cashBalance)}</td>
+                        <td className="text-center">{formatCurrency(totalCurrentValue())}</td>
                         <td className={returnStyles()}>{returnOnInvestment()}</td>
                     </tr>
                 </tbody>

@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from 'react';
+import { React, useContext } from 'react';
 import axios from 'axios';
 import { PortfolioContext } from '../../context/PortfolioContext';
 import { Modal, Button } from 'react-bootstrap';
@@ -10,6 +10,7 @@ export function TransactionConfirmation({
                             showConfirmation,
                             setShowConfirmation,
                             setShow,
+                            apiPath
                         }
                         ) {
     const { setAssetToAdd } = useContext(PortfolioContext);
@@ -18,11 +19,16 @@ export function TransactionConfirmation({
     const handleCancel = () => {
         setShowConfirmation(false);
     }
-    console.log(assetToPurchase);
     const handleConfirm = async () => {
 
         try {
-            const response = await axios.post(`${apiUrl}/asset`,
+            let request;
+            if (apiPath === 'asset') {
+                request = axios.post
+            } else if (apiPath === 'deposit') {
+                request = axios.put
+            }
+            const response = await request(`${apiUrl}/${apiPath}`,
                 assetToPurchase,
                 {
                     headers: {
@@ -30,10 +36,10 @@ export function TransactionConfirmation({
                     }
                 }
             );
-            console.log(response);
             setShowConfirmation(false);
             setShow(false);
             setAssetToAdd(true)
+
         }
         catch (error) {
             console.log(error);

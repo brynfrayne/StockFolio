@@ -7,7 +7,7 @@ import axios from 'axios';
 export function EditProfile() {
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [failedSubmit, setFailedSubmit] = useState(false);
@@ -76,8 +76,7 @@ export function EditProfile() {
                 },
                 json: true
             }
-        );
-
+            );
             console.log(response);
             setSuccess(true);
 

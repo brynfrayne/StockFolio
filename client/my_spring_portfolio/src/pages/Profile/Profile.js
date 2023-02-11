@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import editIcon from '../../assets/edit-button.svg'
 import { Link } from 'react-router-dom'
 import { formatCurrency } from '../../utils'
@@ -9,6 +9,7 @@ import './Profile.css'
 
 export function UserProfile() {
     const { user, setUser } = useContext(UserContext)
+    const [updateUser, setUpdateUser] = useState(false)
     const apiUrl = process.env.REACT_APP_API_URL
     const token = sessionStorage.getItem('token')
 
@@ -19,6 +20,7 @@ export function UserProfile() {
                 const response = await axios.get(`${apiUrl}/user`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
+                sessionStorage.setItem('user', JSON.stringify(response.data))
                 setUser(response.data)
                 console.log(response.data)
             } catch (error) {
@@ -26,14 +28,17 @@ export function UserProfile() {
             }
         }
         fetchUser()
-    }, [token])
+    }, [])
 
     if (!user) return ( <Spinner /> )
-    
+
     return (
         <div className="container bg-light profile">
             <div className="d-flex justify-content-end mb-3">
-                <Link to="/editprofile">
+                <Link to={{
+                    pathname: '/edit-profile',
+                    state: { setUpdateUser }
+                }}>
                     <img src={editIcon} alt="edit" className="edit-icon" />
                 </Link>
             </div>
@@ -45,9 +50,7 @@ export function UserProfile() {
                 <div className="d-flex justify-content-between">
                     <p>Email</p>
                     <p>
-                        <a href={`mailto:${user.email}`}>
-                            {user.email}
-                        </a>
+                        {user.email}
                     </p>
                 </div>
                 <div className="d-flex justify-content-between">

@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { TransactionFormInputs } from './TransactionFormInputs';
 import { formattedDate } from '../../utils';
@@ -9,31 +9,44 @@ export function TransactionForm({
                     show,
                     setShow,
                     setShowConfirmation,
-                    transactionType
+                    transactionType,
+                    setApiPath,
+                    stockPrice,
+                    setStockPrice,
+                    quantity,
+                    setQuantity,
+                    selectedOption,
+                    setSelectedOption
                 }
                 ) {
-    const [selectedOption, setSelectedOption] = useState([]);
-    const [stockPrice, setStockPrice] = useState(0);
-    const [quantity, setQuantity] = useState(0);
-
     const handleClose = () => setShow(false);
 
     const handleBuyAsset = () => {
-        console.log('this is the handleBuyAsset function')
         updateAssetToPurchase();
         setShowConfirmation(true);
         setShow(false);
     }
 
     const updateAssetToPurchase = () => {
-        setAssetToPurchase({
-            name: selectedOption[0].name,
-            ticker: selectedOption[0].symbol,
-            assetQuantity: parseInt(quantity),
-            currentAssetPrice: parseFloat(stockPrice),
-            assetCostBasis: parseFloat(stockPrice),
-            datePurchased: formattedDate
-        });
+        if (transactionType.type === 'buy' ||
+            transactionType.type === 'sell'
+            ) {
+            setAssetToPurchase({
+                name: selectedOption[0].name,
+                ticker: selectedOption[0].symbol,
+                assetQuantity: parseInt(quantity),
+                currentAssetPrice: parseFloat(stockPrice),
+                assetCostBasis: parseFloat(stockPrice),
+                datePurchased: formattedDate,
+            });
+            setApiPath('asset')
+        } else {
+            setAssetToPurchase({
+                type: transactionType.type,
+                quantity: parseInt(quantity),
+            })
+            setApiPath('user/deposit-cash')
+        }
     }
 
     return (

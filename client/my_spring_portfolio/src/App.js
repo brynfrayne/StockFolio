@@ -22,7 +22,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/profile" element={<UserProfile />} />
-        <Route path='/editprofile' element={<EditProfile />} />
+        <Route path='/edit-profile' element={<EditProfile />} />
       </Routes>
     </Router>
   );
