@@ -33,7 +33,7 @@ export function TransactionConfirmation({
             console.log(response);
             setShowConfirmation(false);
             setShow(false);
-            setAssetToAdd(response.data)
+            setAssetToAdd(true)
         }
         catch (error) {
             console.log(error);
