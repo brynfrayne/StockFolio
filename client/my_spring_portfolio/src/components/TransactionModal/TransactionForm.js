@@ -42,8 +42,7 @@ export function TransactionForm({
             setApiPath('asset')
         } else {
             setAssetToPurchase({
-                type: transactionType.type,
-                quantity: parseInt(quantity),
+                cashBalance: parseInt(quantity),
             })
             setApiPath('user/deposit-cash')
         }

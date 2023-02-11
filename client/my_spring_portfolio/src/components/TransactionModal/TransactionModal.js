@@ -18,6 +18,7 @@ export function TransactionModal({ transactionType }) {
         setStockPrice(0);
         setQuantity(0);
         setSelectedOption([]);
+        setAssetToPurchase({});
     }
 
     return (
@@ -39,7 +40,7 @@ export function TransactionModal({ transactionType }) {
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
         />
-        { assetToPurchase.name &&
+        { Object.keys(assetToPurchase) &&
         <TransactionConfirmation
             assetToPurchase={assetToPurchase}
             showConfirmation={showConfirmation}

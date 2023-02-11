@@ -27,7 +27,7 @@ export function TransactionConfirmation({
             let request;
             if (apiPath === 'asset') {
                 request = axios.post
-            } else if (apiPath === 'deposit') {
+            } else if (apiPath === 'user/deposit-cash') {
                 request = axios.put
             }
             const assetPostOrPutResponse = await request(`${apiUrl}/${apiPath}`,
@@ -55,7 +55,14 @@ export function TransactionConfirmation({
             console.log(error);
         }
     }
-    const { name, ticker, assetQuantity, assetCostBasis } = assetToPurchase;
+    const { assetQuantity, assetCostBasis, ticker, cashBalance } = assetToPurchase;
+    const confirmMessage = () => {
+        if (apiPath === 'asset') {
+            return `Are you sure you want to purchase ${assetQuantity} unit(s) of ${ticker} for ${formatCurrency(assetQuantity*assetCostBasis)}?`
+        } else if (apiPath === 'user/deposit-cash') {
+            return `Are you sure you want to deposit ${formatCurrency(cashBalance)}?`
+        }
+    }
 
     return (
         <Modal show={showConfirmation} onHide={handleCancel}>
@@ -63,7 +70,7 @@ export function TransactionConfirmation({
             <Modal.Title>Confirm Purchase</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to purchase {assetQuantity} unit(s) of {ticker} for {formatCurrency(assetQuantity*assetCostBasis)}?
+                {confirmMessage()}
             </Modal.Body>
             <Modal.Footer>
             <Button variant="secondary" onClick={handleCancel}>
