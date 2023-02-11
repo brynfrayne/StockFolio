@@ -23,7 +23,12 @@ export function TransactionConfirmation({
 
         try {
             const response = await axios.post(`${apiUrl}/asset`,
-                assetToPurchase
+                assetToPurchase,
+                {
+                    headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                }
             );
             console.log(response);
             setShowConfirmation(false);

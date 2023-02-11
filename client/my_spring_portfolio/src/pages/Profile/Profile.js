@@ -11,7 +11,7 @@ export function UserProfile() {
     const { user, setUser } = useContext(UserContext)
     const apiUrl = process.env.REACT_APP_API_URL
     const token = sessionStorage.getItem('token')
-    
+
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -27,9 +27,9 @@ export function UserProfile() {
         }
         fetchUser()
     }, [token])
+
     if (!user) return ( <Spinner /> )
-
-
+    
     return (
         <div className="container bg-light profile">
             <div className="d-flex justify-content-end mb-3">

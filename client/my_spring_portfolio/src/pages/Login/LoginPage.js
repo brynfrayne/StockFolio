@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../../context/UserContext'
 import axios from 'axios'
 import './LoginPage.css'
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -18,7 +20,14 @@ export function LoginPage() {
             "password": password
         });
         console.log("this is the response:", response);
+
         sessionStorage.setItem('token', response.data.token);
+        const response2 = await axios.get(`${apiUrl}/user`, {
+            headers: { 'Authorization': `Bearer ${response.data.token}` }
+        });
+        console.log("this is the response2:", response2);
+        sessionStorage.setItem('user', JSON.stringify(response2.data));
+        setUser(response2.data);
 
         navigate('/portfolio');
     } catch (error) {

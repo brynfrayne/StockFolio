@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
 export function Registration() {
+    const { setUser } = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -34,6 +36,13 @@ export function Registration() {
             console.log("this is the response:", response);
             sessionStorage.setItem('token', response.data.token);
             setAuthSent(true);
+
+            // const response2 = await axios.get(`${apiUrl}/user`, {
+            //     headers: { 'Authorization': `Bearer ${response.data.token}` }
+            // });
+            // console.log("this is the response2:", response2);
+            // sessionStorage.setItem('user', JSON.stringify(response2.data));
+            // setUser(response2.data);
 
             navigate('/portfolio');
 

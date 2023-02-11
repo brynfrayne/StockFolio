@@ -9,14 +9,16 @@ import './NavBar.css'
 export function NavBar() {
     const location = useLocation();
     const { user } = useContext(UserContext)
+    console.log(user)
+    console.log(JSON.parse(sessionStorage.getItem('user')))
 
     const urlToPageTitleMap = {
         '/': 'Login',
-        '/portfolio': 'Portfolio',
+        '/portfolio': `${user ? user.firstName : ''}'s Portfolio`,
         '/login': 'Login',
         '/register': 'Sign Up',
         '/demo': 'Demo Portfolio',
-        '/profile': 'Profile',
+        '/profile': `${user ? user.firstName : ''}'s Profile`,
         '/editprofile': 'Edit Profile',
     }
     const tokenCheck = () => {

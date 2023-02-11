@@ -11,6 +11,7 @@ export function EditProfile() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [failedSubmit, setFailedSubmit] = useState(false);
+    const token = sessionStorage.getItem('token');
     const [body, setBody] = useState({
         firstName: '',
         lastName: '',
@@ -30,6 +31,19 @@ export function EditProfile() {
         });
         return filteredBody;
     }
+    const updateUserAndRemoveExtraFields = (updatedUser) => {
+        const returnedUser = {
+            id: updatedUser.id,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            email: updatedUser.email,
+            role: updatedUser.role,
+            createdAt: updatedUser.createdAt,
+            cashBalance: updatedUser.cashBalance
+        }
+        return returnedUser;
+    }
+
 
     const filteredUpdatedValues = Object.entries(filterBody()).map(([key, value]) => {
         return `${key}: ${value}`;
@@ -37,8 +51,9 @@ export function EditProfile() {
 
     const updateProfile = async (e) => {
         e.preventDefault();
+        console.log(user)
         const updatedUser = { ...user, ...filterBody() };
-
+        console.log(updatedUser.enabled);
         if (Object.keys(filterBody()).length !== 0) {
             const confirmation = window.confirm(
                 `Are you sure you want to update the following values?\n${filteredUpdatedValues}`
@@ -52,12 +67,17 @@ export function EditProfile() {
         }
 
         try {
-            const response = await axios.put(`${apiUrl}/users`,
-                updatedUser,
-                {
-                headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
-                }
-            );
+            const response = await axios.put(`${apiUrl}/user`,
+            updateUserAndRemoveExtraFields(updatedUser),
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                json: true
+            }
+        );
+
             console.log(response);
             setSuccess(true);
 
@@ -73,16 +93,16 @@ export function EditProfile() {
 
     const successMessage = () => {
         return (
-            <alert className="alert alert-success p-2 mt-2 text-center" role="alert">
+            <div className="alert alert-success p-2 mt-2 text-center" role="alert">
                 Profile updated successfully!
-            </alert>
+            </div>
         )
     }
     const errorMessage = () => {
         return (
-            <alert className="alert alert-danger p-2 mt-2 text-center" role="alert">
+            <div className="alert alert-danger p-2 mt-2 text-center" role="alert">
                 Error updating profile!
-            </alert>
+            </div>
         )
     }
 
