@@ -1,6 +1,7 @@
 import { React, useContext } from 'react';
 import axios from 'axios';
 import { PortfolioContext } from '../../context/PortfolioContext';
+import { UserContext } from '../../context/UserContext';
 import { Modal, Button } from 'react-bootstrap';
 import { formatCurrency } from '../../utils';
 
@@ -14,6 +15,7 @@ export function TransactionConfirmation({
                         }
                         ) {
     const { setAssetToAdd } = useContext(PortfolioContext);
+    const { setUser } = useContext(UserContext);
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleCancel = () => {
@@ -28,7 +30,7 @@ export function TransactionConfirmation({
             } else if (apiPath === 'deposit') {
                 request = axios.put
             }
-            const response = await request(`${apiUrl}/${apiPath}`,
+            const assetPostOrPutResponse = await request(`${apiUrl}/${apiPath}`,
                 assetToPurchase,
                 {
                     headers: {
@@ -36,10 +38,18 @@ export function TransactionConfirmation({
                     }
                 }
             );
+            const updatedUserResponse = await axios.get(`${apiUrl}/user`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                }
+            );
+            sessionStorage.setItem('user', JSON.stringify(updatedUserResponse.data));
+            setUser(updatedUserResponse.data);
             setShowConfirmation(false);
             setShow(false);
             setAssetToAdd(true)
-
         }
         catch (error) {
             console.log(error);
