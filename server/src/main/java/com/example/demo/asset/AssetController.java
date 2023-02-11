@@ -1,16 +1,16 @@
 package com.example.demo.asset;
 
 import com.example.demo.config.JwtService;
-import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
 import com.example.demo.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -39,8 +39,9 @@ public class AssetController {
     }
 
     @PostMapping
-    public void addNewAsset(@RequestBody Asset asset, @RequestHeader("Authorization") String token) {
-        String userEmail = jwtService.parseToken(token);
+    public void addNewAsset(@RequestBody Asset asset) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
         assetService.addNewAsset(asset, userEmail);
     }
 

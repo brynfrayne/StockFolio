@@ -3,6 +3,8 @@ package com.example.demo.user;
 import com.example.demo.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -21,25 +23,22 @@ public class UserController {
     @Autowired
     private JwtService jwtService;
 
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-
     @GetMapping
-    public UserDetails getUserByEmail(@RequestHeader("Authorization") String token) {
-        String userEmail = jwtService.parseToken(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+    public UserDetails getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+        UserDetails userDetails = userService.getUser(userEmail);
         return userDetails;
     }
-//    @GetMapping
-//    public List<User> getUsers() {
-//        return userService.getUsers();
-//    }
-
 
     @PutMapping
-    public void updateUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
-        String userEmail = jwtService.parseToken(token);
+    public void updateUser(@RequestBody User user) {
+        System.out.println("is this where the error is?");
+        System.out.println("user: " + user);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        System.out.println("userEmail: " + userEmail);
         userService.updateUser(user, userEmail);
     }
 
