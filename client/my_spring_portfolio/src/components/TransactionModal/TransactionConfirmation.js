@@ -8,12 +8,15 @@ import { formatCurrency } from '../../utils';
 
 export function TransactionConfirmation({
                             assetToPurchase,
+                            stock,
                             showConfirmation,
                             setShowConfirmation,
                             setShow,
+                            transactionType,
                             apiPath
                         }
                         ) {
+    const { assetQuantity, assetCostBasis, ticker, cashBalance } = assetToPurchase;
     const { setAssetToAdd } = useContext(PortfolioContext);
     const { setUser } = useContext(UserContext);
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -21,23 +24,33 @@ export function TransactionConfirmation({
     const handleCancel = () => {
         setShowConfirmation(false);
     }
-    const handleConfirm = async () => {
 
+    const headers = { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` } };
+    const axiosTransactionCall = () => {
+        if (transactionType.type === 'deposit') {
+        return axios.put(`${apiUrl}/user/deposit-cash`,
+            assetToPurchase,
+            headers
+        );
+    } else if (transactionType.type === 'buy') {
+        return axios.post(`${apiUrl}/asset`,
+            assetToPurchase,
+            headers
+        );
+    } else if (transactionType.type === 'sell') {
+        return axios.put(`${apiUrl}/asset/${stock.id}`,
+            assetToPurchase,
+            headers
+        );
+    }
+}
+    console.log(stock)
+    console.log(assetToPurchase)
+
+    const handleConfirm = async () => {
         try {
-            let request;
-            if (apiPath === 'asset') {
-                request = axios.post
-            } else if (apiPath === 'user/deposit-cash') {
-                request = axios.put
-            }
-            const assetPostOrPutResponse = await request(`${apiUrl}/${apiPath}`,
-                assetToPurchase,
-                {
-                    headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-                    }
-                }
-            );
+            const response = await axiosTransactionCall();
+            console.log(response);
             const updatedUserResponse = await axios.get(`${apiUrl}/user`,
                 {
                     headers: {
@@ -55,12 +68,13 @@ export function TransactionConfirmation({
             console.log(error);
         }
     }
-    const { assetQuantity, assetCostBasis, ticker, cashBalance } = assetToPurchase;
     const confirmMessage = () => {
         if (apiPath === 'asset') {
             return `Are you sure you want to purchase ${assetQuantity} unit(s) of ${ticker} for ${formatCurrency(assetQuantity*assetCostBasis)}?`
         } else if (apiPath === 'user/deposit-cash') {
             return `Are you sure you want to deposit ${formatCurrency(cashBalance)}?`
+        } else if (apiPath === 'asset/sell') {
+            return `Are you sure you want to sell ${assetQuantity} unit(s) of ${ticker} for ${formatCurrency(assetQuantity*assetCostBasis)}?`
         }
     }
 

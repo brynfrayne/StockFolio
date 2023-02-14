@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import './StockFormInputs.css';
 import axios from 'axios';
 
-export function StockFormInputs({ selectedOption, setSelectedOption }) {
+export function StockFormInputs({
+                        selectedOption,
+                        setSelectedOption,
+                    }
+                    ) {
     const [suggestions, setSuggestions] = useState([]);
     const stockAutoCompleteUrl = process.env.REACT_APP_autoComplete_StockName_apiUrl
 
@@ -19,8 +24,7 @@ export function StockFormInputs({ selectedOption, setSelectedOption }) {
     }
 
     return (
-        <div>
-            <AsyncTypeahead
+           <AsyncTypeahead
                 id="async-example"
                 labelKey="name"
                 minLength={3}
@@ -28,7 +32,7 @@ export function StockFormInputs({ selectedOption, setSelectedOption }) {
                 onChange={handleChange}
                 options={suggestions}
                 placeholder="Search for a stock by name..."
-                renderMenuItemChildren={(option, props) => (
+                renderMenuItemChildren={(option, _props) => (
                     <>
                     <div>
                         <span>{option.name}</span>
@@ -41,6 +45,5 @@ export function StockFormInputs({ selectedOption, setSelectedOption }) {
                     </>
                 )}
             />
-        </div>
     )
 }

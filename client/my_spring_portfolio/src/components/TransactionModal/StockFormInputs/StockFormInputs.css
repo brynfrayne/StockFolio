@@ -1,0 +1,9 @@
+.select-with-caret {
+    position: relative;
+  }
+
+  .caret {
+    position: absolute;
+    right: 1.75rem;
+    top: 3.5rem;
+  }

@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { TransactionFormInputs } from './TransactionFormInputs';
 import { formattedDate } from '../../utils';
+import axios from 'axios';
 
 
 export function TransactionForm({
+                    setRequestType,
                     setAssetToPurchase,
                     show,
                     setShow,
                     setShowConfirmation,
                     transactionType,
                     setApiPath,
+                    stock,
+                    setStock,
                     stockPrice,
                     setStockPrice,
                     quantity,
@@ -28,9 +32,7 @@ export function TransactionForm({
     }
 
     const updateAssetToPurchase = () => {
-        if (transactionType.type === 'buy' ||
-            transactionType.type === 'sell'
-            ) {
+        if (transactionType.type === 'buy') {
             setAssetToPurchase({
                 name: selectedOption[0].name,
                 ticker: selectedOption[0].symbol,
@@ -40,7 +42,17 @@ export function TransactionForm({
                 datePurchased: formattedDate,
             });
             setApiPath('asset')
-        } else {
+        } else if (transactionType.type === 'sell') {
+            setAssetToPurchase({
+                name: stock.name,
+                ticker: stock.ticker,
+                assetQuantity: quantity,
+                currentAssetPrice: parseFloat(stock.currentAssetPrice),
+                assetCostBasis: parseFloat(stock.assetCostBasis),
+                datePurchased: stock.datePurchased,
+            });
+            setApiPath('asset/sell')
+        } else if (transactionType.type === 'deposit') {
             setAssetToPurchase({
                 cashBalance: parseInt(quantity),
             })
@@ -59,6 +71,8 @@ export function TransactionForm({
                 setSelectedOption={setSelectedOption}
                 stockPrice={stockPrice}
                 setStockPrice={setStockPrice}
+                stock={stock}
+                setStock={setStock}
                 quantity={quantity}
                 setQuantity={setQuantity}
                 transactionType={transactionType}

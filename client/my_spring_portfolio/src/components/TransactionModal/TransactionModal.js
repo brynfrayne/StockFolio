@@ -9,9 +9,11 @@ export function TransactionModal({ transactionType }) {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [assetToPurchase, setAssetToPurchase] = useState({});
     const [apiPath, setApiPath] = useState('');
+    const [stock, setStock] = useState(null);
     const [stockPrice, setStockPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [selectedOption, setSelectedOption] = useState([]);
+    const [requestType, setRequestType] = useState(null);
 
     const handleShow = () => {
         setShow(true);
@@ -30,9 +32,12 @@ export function TransactionModal({ transactionType }) {
             transactionType={transactionType}
             show={show}
             setAssetToPurchase={setAssetToPurchase}
+            setRequestType={setRequestType}
             setShow={setShow}
             setShowConfirmation={setShowConfirmation}
             setApiPath={setApiPath}
+            stock={stock}
+            setStock={setStock}
             stockPrice={stockPrice}
             setStockPrice={setStockPrice}
             quantity={quantity}
@@ -46,7 +51,10 @@ export function TransactionModal({ transactionType }) {
             showConfirmation={showConfirmation}
             setShowConfirmation={setShowConfirmation}
             setShow={setShow}
+            stock={stock}
             apiPath={apiPath}
+            requestType={requestType}
+            transactionType={transactionType}
         />
         }
         </>

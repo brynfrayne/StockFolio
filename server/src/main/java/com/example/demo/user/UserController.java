@@ -27,19 +27,22 @@ public class UserController {
     public UserDetails getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
         UserDetails userDetails = userService.getUser(userEmail);
         return userDetails;
     }
 
     @PutMapping
     public void updateUser(@RequestBody User user) {
-        System.out.println("is this where the error is?");
-        System.out.println("user: " + user);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        System.out.println("userEmail: " + userEmail);
         userService.updateUser(user, userEmail);
+    }
+
+    @PutMapping("/deposit-cash")
+    public void depositCash(@RequestBody User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        userService.depositCash(user, userEmail);
     }
 
 }

@@ -47,4 +47,22 @@ public class UserService {
         User retrievedUser = userByEmail.get();
         return retrievedUser;
     }
+
+    public void depositCash(User user, String userEmail) {
+        Optional<User> userByEmail = userRepository.findUserByEmail(userEmail);
+        if (!userByEmail.isPresent()) {
+            throw new IllegalStateException("User with email " + userEmail + " does not exist");
+        }
+        User retrievedUser = userByEmail.get();
+        retrievedUser.setCashBalance(retrievedUser.getCashBalance() + user.getCashBalance());
+        userRepository.save(retrievedUser);
+    }
+    public void updateCashBalance(String userEmail, double amount) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalStateException("User with email " + userEmail + " does not exist"));
+        user.setCashBalance(user.getCashBalance() + amount);
+        userRepository.save(user);
+    }
+
+
 }

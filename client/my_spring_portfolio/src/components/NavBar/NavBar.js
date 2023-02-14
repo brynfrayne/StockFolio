@@ -9,8 +9,6 @@ import './NavBar.css'
 export function NavBar() {
     const location = useLocation();
     const { user } = useContext(UserContext)
-    console.log(user)
-    console.log(JSON.parse(sessionStorage.getItem('user')))
 
     const urlToPageTitleMap = {
         '/': 'Login',

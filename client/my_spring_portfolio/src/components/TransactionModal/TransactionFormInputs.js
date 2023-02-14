@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { QuantityFormInputs } from './QuantityFormInputs/QuantityFormInputs';
-import { StockFormInputs } from './StockFormInputs';
+import { StockFormInputs } from './StockFormInputs/StockFormInputs';
+import { SellFormInputs } from './SellFormInputs';
 import { formatCurrency } from '../../utils';
 import axios from 'axios';
 
@@ -11,6 +12,8 @@ export function TransactionFormInputs({
                                 setStockPrice,
                                 setQuantity,
                                 quantity,
+                                stock,
+                                setStock,
                                 stockPrice
                             }
                             ) {
@@ -39,44 +42,60 @@ export function TransactionFormInputs({
             { transactionType.type === 'deposit' ? (
                 <QuantityFormInputs
                     setQuantity={setQuantity}
+                    transactionType={transactionType}
                     quantity={quantity}
                     displayInDollars
                 />
-            ) : (
-            <>
-            <div className="form-group mb-2">
-                <label
-                    className="mb-1"
-                    htmlFor="assetName"
-                >
-                    Asset Name
-                </label>
-                <StockFormInputs
+            )
+            : (
+                transactionType.type === 'sell' ?
+                <SellFormInputs
                     selectedOption={selectedOption}
                     setSelectedOption={setSelectedOption}
+                    stockPrice={stockPrice}
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                    stock={stock}
+                    setStock={setStock}
+                    transactionType={transactionType}
                 />
-            </div>
-            <QuantityFormInputs
-                setQuantity={setQuantity}
-                quantity={quantity}
-            />
-            <div className="form-group d-flex justify-content-between mt-3">
-                <label
-                    htmlFor="assetPrice">
-                    Asset Price:
-                </label>
-
-                {stockPrice > 0 ?
-                <p>{formatCurrency(stockPrice)}</p>
                 :
-                <p>Enter a valid ticker</p>
-                }
-            </div>
-            <div className="form-group d-flex justify-content-between mt-1">
-                <label htmlFor="totalCost">Total Cost: </label>
-                <p>{formatCurrency(stockPrice * quantity)}</p>
-            </div>
-            </>
+                <>
+                <div className="form-group mb-2">
+                    <label
+                        className="mb-1"
+                        htmlFor="assetName"
+                    >
+                        Asset Name
+                    </label>
+                    <StockFormInputs
+                        transactionType={transactionType}
+                        selectedOption={selectedOption}
+                        setSelectedOption={setSelectedOption}
+                    />
+                </div>
+                <QuantityFormInputs
+                    setQuantity={setQuantity}
+                    quantity={quantity}
+                    transactionType={transactionType}
+                />
+                <div className="form-group d-flex justify-content-between mt-3">
+                    <label
+                        htmlFor="assetPrice">
+                        Asset Price:
+                    </label>
+
+                    {stockPrice > 0 ?
+                    <p>{formatCurrency(stockPrice)}</p>
+                    :
+                    <p>Enter a valid ticker</p>
+                    }
+                </div>
+                <div className="form-group d-flex justify-content-between mt-1">
+                    <label htmlFor="totalCost">Total Cost: </label>
+                    <p>{formatCurrency(stockPrice * quantity)}</p>
+                </div>
+                </>
             )}
         </form>
 

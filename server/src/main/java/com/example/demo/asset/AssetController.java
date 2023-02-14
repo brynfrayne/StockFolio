@@ -26,12 +26,6 @@ public class AssetController {
     @Autowired
     private final UserService userService;
 
-//    public AssetController(AssetService assetService,
-//                           UserRepository userRepository) {
-//        this.assetService = assetService;
-//        this.userRepository = userRepository;
-//    }
-
     @GetMapping
     public List<Asset> getAssets(HttpServletRequest request, @RequestHeader("Authorization") String token) {
         String userEmail = jwtService.parseToken(token);
@@ -45,17 +39,23 @@ public class AssetController {
         assetService.addNewAsset(asset, userEmail);
     }
 
-    @DeleteMapping(path = "{assetId}")
-    public void deleteAsset(@PathVariable("assetId") Long assetId) {
-        assetService.deleteAsset(assetId);
-    }
+//    @DeleteMapping(path = "{assetId}")
+//    public void deleteAsset(@PathVariable("assetId") Long assetId) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String userEmail = authentication.getName();
+//        Asset asset = assetService.getAssetById(assetId);
+//        Double assetPrice = asset.getCurrentAssetPrice();
+//        assetService.deleteAsset(assetId, assetPrice, userEmail);
+//    }
+
 
     @PutMapping(path = "{assetId}")
-    public void updateAsset(
-            @PathVariable("assetId") Long assetId,
-            @RequestParam(required = false) Integer assetQuantity,
-            @RequestParam() String name) {
-        assetService.updateAsset(assetId,assetQuantity, name);
+    public void sellAsset(@RequestBody Asset asset, @PathVariable("assetId") Long assetId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        assetService.sellAsset(asset, assetId, userEmail);
     }
+
+
 }
 
