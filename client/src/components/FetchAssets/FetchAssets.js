@@ -28,13 +28,12 @@ export function FetchAssets({ assets, setAssets, apiPath }) {
       .then(response => {
         setAssets(response.data);
         setIsLoading(false);
-        console.log(response);
       })
       .catch(error => {
         console.log(error);
       });
     }, [apiPath, apiUrl, token, assetToAdd]);
-    
+
 
     return isLoading ? (
       <div className="d-flex justify-content-center m-3">

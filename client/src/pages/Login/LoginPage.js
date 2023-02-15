@@ -19,13 +19,11 @@ export function LoginPage() {
             "email": email,
             "password": password
         });
-        console.log("this is the response:", response);
 
         sessionStorage.setItem('token', response.data.token);
         const response2 = await axios.get(`${apiUrl}/user`, {
             headers: { 'Authorization': `Bearer ${response.data.token}` }
         });
-        console.log("this is the response2:", response2);
         sessionStorage.setItem('user', JSON.stringify(response2.data));
         setUser(response2.data);
 

@@ -33,14 +33,12 @@ export function Registration() {
                     "password": password
 
             });
-            console.log("this is the response:", response);
             sessionStorage.setItem('token', response.data.token);
             setAuthSent(true);
 
             const response2 = await axios.get(`${apiUrl}/user`, {
                 headers: { 'Authorization': `Bearer ${response.data.token}` }
             });
-            console.log("this is the response2:", response2);
             sessionStorage.setItem('user', JSON.stringify(response2.data));
             setUser(response2.data);
 

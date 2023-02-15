@@ -22,7 +22,6 @@ export function UserProfile() {
                 })
                 sessionStorage.setItem('user', JSON.stringify(response.data))
                 setUser(response.data)
-                console.log(response.data)
             } catch (error) {
                 console.log(error)
             }

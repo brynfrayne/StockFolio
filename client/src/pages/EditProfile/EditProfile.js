@@ -51,16 +51,14 @@ export function EditProfile() {
 
     const updateProfile = async (e) => {
         e.preventDefault();
-        console.log(user)
+
         const updatedUser = { ...user, ...filterBody() };
-        console.log(updatedUser.enabled);
         if (Object.keys(filterBody()).length !== 0) {
             const confirmation = window.confirm(
                 `Are you sure you want to update the following values?\n${filteredUpdatedValues}`
                 );
             if (!confirmation) return;
         } else {
-            console.log('no changes made');
             setFailedSubmit(true);
             setTimeout(() => setFailedSubmit(false), 1500);
             return;
@@ -77,7 +75,6 @@ export function EditProfile() {
                 json: true
             }
             );
-            console.log(response);
             setSuccess(true);
 
             setTimeout(() => {

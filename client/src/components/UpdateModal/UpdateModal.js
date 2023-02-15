@@ -8,10 +8,10 @@ export function UpdateModal({ asset, onClose, show }) {
     const { setAssets } = useContext(PortfolioContext);
     const [updatedQuantity, setUpdatedQuantity] = useState(asset.assetQuantity);
     const [updatedPrice, setUpdatedPrice] = useState(asset.assetPrice);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleUpdate = () => {
-        console.log(asset);
-        axios.put(`http://localhost:8080/api/v1/asset/${asset.id}?name=${asset.name}&assetQuantity=${updatedQuantity}`, {
+        axios.put(`${apiUrl}/asset/${asset.id}?name=${asset.name}&assetQuantity=${updatedQuantity}`, {
             // asset
         })
         .then(_response => {

@@ -26,7 +26,6 @@ export function NavBar() {
             return false;
         }
     }
-    console.log(user)
 
     const setPageTitle = () => {
         const path = location.pathname;
