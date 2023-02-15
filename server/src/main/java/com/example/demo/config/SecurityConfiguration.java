@@ -43,6 +43,8 @@ public class SecurityConfiguration {
     CorsConfiguration corsConfiguration() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("https://stock-folio.vercel.app/");
+        corsConfiguration.addAllowedOrigin("https://stock-folio-r8cy6jb52-brynfrayne.vercel.app");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         return corsConfiguration;
