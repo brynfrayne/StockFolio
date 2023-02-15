@@ -15,12 +15,10 @@ export function StockFormInputs({
         const response = await axios.get(`${stockAutoCompleteUrl}/${AssetName}`);
         const { data } = response;
         setSuggestions(data);
-        console.log(data);
     }
 
     const handleChange = (selected) => {
         setSelectedOption(selected);
-        console.log(selectedOption)
     }
 
     return (

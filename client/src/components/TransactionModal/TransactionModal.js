@@ -26,7 +26,7 @@ export function TransactionModal({ transactionType }) {
         setAssetToPurchase({});
         setSelectedType(transactionType)
     }
-    if (show) console.log(selectedType)
+
 
     return (
         <>

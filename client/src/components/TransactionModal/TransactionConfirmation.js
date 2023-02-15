@@ -25,7 +25,7 @@ export function TransactionConfirmation({ transactionType }) {
     const handleCancel = () => {
         setShowConfirmation(false);
     }
-    console.log(assetToPurchase);
+
     const headers = { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` } };
     const axiosTransactionCall = () => {
         if (selectedType.type === 'deposit') {
@@ -48,7 +48,7 @@ export function TransactionConfirmation({ transactionType }) {
     const handleConfirm = async () => {
         try {
             const response = await axiosTransactionCall();
-            console.log(response);
+            
             setAssetToAdd(!assetToAdd); // this solves the useEffect dependency issue - in a less than ideal way
             const updatedUserResponse = await axios.get(`${apiUrl}/user`,
                 {

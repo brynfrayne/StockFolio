@@ -8,7 +8,7 @@ import axios from 'axios';
 export function TransactionFormInputs({ transactionType, selectedType }) {
     const financial_modelling_apiKey = process.env.REACT_APP_financial_modelling_apiKey
     const financial_modelling_apiUrl = process.env.REACT_APP_financial_modelling_apiUrl
-    console.log(selectedType)
+    
     const {
         selectedOption,
         setStockPrice,
