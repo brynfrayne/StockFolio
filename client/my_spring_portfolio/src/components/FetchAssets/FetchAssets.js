@@ -9,10 +9,10 @@ import { AssetTable } from '../../components/AssetTable/AssetTable';
 
 export function FetchAssets({ assets, setAssets, apiPath }) {
     const [isLoading, setIsLoading] = useState(true);
-    const { assetToAdd } = useContext(PortfolioContext);
+    const { assetToAdd, setAssetToAdd } = useContext(PortfolioContext);
     const token = sessionStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
-    
+
     const axiosCallAuthCondition = () => {
       if (token) {
         return axios.get(`${apiUrl}/${apiPath}`, {
@@ -28,11 +28,13 @@ export function FetchAssets({ assets, setAssets, apiPath }) {
       .then(response => {
         setAssets(response.data);
         setIsLoading(false);
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
       });
     }, [apiPath, apiUrl, token, assetToAdd]);
+    
 
     return isLoading ? (
       <div className="d-flex justify-content-center m-3">

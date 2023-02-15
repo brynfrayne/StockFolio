@@ -12,6 +12,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Data
 @Builder
@@ -34,10 +37,16 @@ public class Asset {
     private double currentAssetPrice;
     @Positive
     private double assetCostBasis;
-    @NotNull
-    private LocalDate datePurchased;
+    @ElementCollection
+    private List<LocalDate> datePurchased;
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
+    public void addPurchaseDate(LocalDate purchaseDate) {
+        datePurchased.add(purchaseDate);
+    }
+    public LocalDate getPurchaseDate(int index) {
+        return datePurchased.get(index);
+    }
 }

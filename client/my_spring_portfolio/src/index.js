@@ -5,6 +5,7 @@ import App from './App';
 import { PortfolioProvider } from './context/PortfolioProvider';
 import { AuthProvider } from './context/AuthProvider';
 import { UserProvider } from './context/UserProvider';
+import { TransactionProvider } from './context/TransactionProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,10 +13,13 @@ root.render(
     <AuthProvider>
       <UserProvider>
     <PortfolioProvider>
+      <TransactionProvider>
       <App />
+      </TransactionProvider>
     </PortfolioProvider>
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>
 );
+
 

@@ -33,24 +33,24 @@ public class AssetController {
     }
 
     @PostMapping
-    public void addNewAsset(@RequestBody Asset asset) {
+    public void buyAsset(@RequestBody Asset asset) {
+        System.out.println("this is the asset: "+asset);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        assetService.addNewAsset(asset, userEmail);
+        Boolean assetExists = assetService.checkAssetExists(asset);
+        if (assetExists) {
+            System.out.println("this is adding to an existing asset");
+            assetService.addToPreexistingAsset(asset, userEmail);
+        } else {
+            System.out.println("this is adding a new asset");
+            assetService.addNewAsset(asset, userEmail);
+        }
     }
-
-//    @DeleteMapping(path = "{assetId}")
-//    public void deleteAsset(@PathVariable("assetId") Long assetId) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userEmail = authentication.getName();
-//        Asset asset = assetService.getAssetById(assetId);
-//        Double assetPrice = asset.getCurrentAssetPrice();
-//        assetService.deleteAsset(assetId, assetPrice, userEmail);
-//    }
 
 
     @PutMapping(path = "{assetId}")
     public void sellAsset(@RequestBody Asset asset, @PathVariable("assetId") Long assetId) {
+        System.out.println("this is the asset: "+asset);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         assetService.sellAsset(asset, assetId, userEmail);

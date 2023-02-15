@@ -4,7 +4,7 @@ import { UserContext } from '../../context/UserContext';
 
 export function PortfolioDashboard({ assets }) {
     const { user } = useContext(UserContext);
-
+    console.log(assets)
     const totalCostBasis = () => {
         let sum = 0;
         assets.forEach(asset => {

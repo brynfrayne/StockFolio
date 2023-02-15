@@ -7,6 +7,7 @@ import { formatCurrency, formatPercentage } from '../../utils.js';
 export function AssetTable({ assets }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedAsset, setSelectedAsset] = useState({});
+    const [showAssetModal, setShowAssetModal] = useState(false);
 
     const returnOnInvestment = (asset) => {
         let totalCostBasis = asset.assetCostBasis*asset.assetQuantity;
@@ -27,6 +28,7 @@ export function AssetTable({ assets }) {
     const handleOpenModal = (asset) => {
         setSelectedAsset(asset);
         setIsModalOpen(true);
+        setShowAssetModal(true);
     }
 
   return (
@@ -44,6 +46,7 @@ export function AssetTable({ assets }) {
         <tbody>
         {assets.map((asset) => (
             <tr key={asset.id} onClick={() => handleOpenModal(asset)}>
+             {/* <tr key={asset.id}> */}
                 <td className="text-center">{asset.name}</td>
                 <td className="text-center">{asset.ticker}</td>
                 <td className="text-center">{asset.assetQuantity}</td>
@@ -53,12 +56,11 @@ export function AssetTable({ assets }) {
         ))}
         </tbody>
     </table>
-    {isModalOpen &&
-        <AssetModal
-            asset={selectedAsset}
-            onClose={() => setIsModalOpen(false)}
-        />
-    }
+    <AssetModal
+        asset={selectedAsset}
+        showAssetModal={showAssetModal}
+        setShowAssetModal={setShowAssetModal}
+    />
     </div>
     );
 }

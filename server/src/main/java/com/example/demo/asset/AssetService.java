@@ -7,6 +7,7 @@ import com.example.demo.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,46 +27,46 @@ public class AssetService {
         this.userRepository = userRepository;
         this.userService = userService;
     }
-
-    public List<Asset> getAssets() {
-        return assetRepository.findAll();
-    }
-
-    public void addNewAsset(Asset asset, String userEmail) {
-        Optional<Asset> assetByName = assetRepository.findAssetByName(asset.getName());
-
-        if (assetByName.isPresent()) {
-            throw new IllegalStateException("Asset already exists. Add to pre-existing asset.");
-        }
-
-        Optional<User> user = userRepository.findByEmail(userEmail);
-        if (!user.isPresent()) {
-            throw new IllegalStateException("User with email " + userEmail + " does not exist");
-        }
-
-        if (user.get().getCashBalance() < asset.getAssetQuantity() * asset.getCurrentAssetPrice()) {
-            throw new IllegalStateException("User does not have enough cash to purchase asset");
-        }
-
-        user.get().setCashBalance(user.get().getCashBalance() - asset.getAssetQuantity() * asset.getCurrentAssetPrice());
-        asset.setUser(user.get());
-        assetRepository.save(asset);
-    }
-
-    public void deleteAsset(Long assetId, Double assetPrice, String userEmail) {
-        Asset asset = assetRepository.findById(assetId)
-                .orElseThrow(() -> new IllegalStateException("Asset does not exist"));
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalStateException("User with email " + userEmail + " does not exist"));
-        user.setCashBalance(user.getCashBalance() + asset.getAssetQuantity() * assetPrice);
-        userRepository.save(user);
-        assetRepository.deleteById(assetId);
-    }
     public List<Asset> getAssetsByEmail(String userEmail) {
         Optional<User> user = userRepository.findByEmail(userEmail);
         return assetRepository.findAllByUser(user);
     }
 
+    public void addNewAsset(Asset asset, String userEmail) {
+        if (assetRepository.findAssetByName(asset.getName()).isPresent()) {
+            throw new IllegalStateException("Asset already exists. Add to pre-existing asset.");
+        }
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalStateException("User with email " + userEmail + " does not exist"));
+
+        if (user.getCashBalance() < asset.getAssetQuantity() * asset.getCurrentAssetPrice()) {
+            throw new IllegalStateException("User does not have enough cash to purchase asset");
+        }
+
+        userService.subtractFromCashBalance(userEmail, asset.getAssetQuantity() * asset.getCurrentAssetPrice());
+
+        asset.setUser(user);
+
+        assetRepository.save(asset);
+    }
+    public void addToPreexistingAsset(Asset asset, String userEmail) {
+        Asset assetToUpdate = assetRepository.findAssetByName(asset.getName())
+                .orElseThrow(() -> new IllegalStateException("Asset with name " + asset.getName() + " does not exist"));
+
+        Double currentTotalAssetCostBasis = assetToUpdate.getAssetCostBasis()*assetToUpdate.getAssetQuantity();
+        Double transactionTotalAssetCostBasis = asset.getAssetCostBasis()*asset.getAssetQuantity();
+        Integer totalAssetQuantity = assetToUpdate.getAssetQuantity() + asset.getAssetQuantity();
+        Double averageAssetCostBasis = (currentTotalAssetCostBasis + transactionTotalAssetCostBasis) / totalAssetQuantity;
+
+        assetToUpdate.setAssetCostBasis(averageAssetCostBasis);
+        assetToUpdate.setAssetQuantity(totalAssetQuantity);
+        assetToUpdate.addPurchaseDate(asset.getPurchaseDate(0));
+
+        assetRepository.save(assetToUpdate);
+
+        userService.subtractFromCashBalance(userEmail, asset.getAssetQuantity() * asset.getCurrentAssetPrice());
+    }
     public void sellAsset(Asset asset, Long assetId, String userEmail) {
         Asset assetToUpdate = assetRepository.findById(assetId)
                 .orElseThrow(()->new IllegalStateException(
@@ -79,12 +80,13 @@ public class AssetService {
             assetToUpdate.setAssetQuantity(assetToUpdate.getAssetQuantity() - asset.getAssetQuantity());
             assetRepository.save(assetToUpdate);
         }
-        userService.updateCashBalance(userEmail, asset.getAssetQuantity() * asset.getCurrentAssetPrice());
+        userService.addToCashBalance(userEmail, asset.getAssetQuantity() * asset.getCurrentAssetPrice());
     }
 
-    public Asset getAssetById(Long assetId) {
-        return assetRepository.findById(assetId)
-                .orElseThrow(() -> new IllegalStateException("Asset with id " + assetId + " does not exist"));
+    public Boolean checkAssetExists(Asset asset) {
+        return assetRepository.findAssetByName(asset.getName()).isPresent();
     }
+
+
 }
 

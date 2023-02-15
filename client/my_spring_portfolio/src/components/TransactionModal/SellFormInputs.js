@@ -1,24 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { PortfolioContext } from '../../context/PortfolioContext';
 import { formatCurrency } from '../../utils';
+import { TransactionContext } from '../../context/TransactionContext';
 
-export function SellFormInputs({
-                        quantity,
-                        setQuantity,
-                        stock,
-                        setStock
-                        }
-                        ) {
+export function SellFormInputs() {
     const { assets } = useContext(PortfolioContext)
     const [chosenAssetId, setChosenAssetId] = useState('')
-    console.log(assets);
-    console.log(typeof chosenAssetId);
+    const {
+        quantity,
+        setQuantity,
+        stock,
+        setStock
+    } = useContext(TransactionContext);
+
     useEffect(() => {
         setStock(assets.find(asset => asset.id === chosenAssetId))
     }, [chosenAssetId])
 
     return (
-        <form>
+        <>
             <div className="form-group mb-2">
                 <label
                     className="mb-1"
@@ -75,6 +75,6 @@ export function SellFormInputs({
                 <p>{formatCurrency(stock.currentAssetPrice * quantity)}</p>
                 }
             </div>
-        </form>
+        </>
     )
 }

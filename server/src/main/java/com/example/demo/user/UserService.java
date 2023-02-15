@@ -57,7 +57,7 @@ public class UserService {
         retrievedUser.setCashBalance(retrievedUser.getCashBalance() + user.getCashBalance());
         userRepository.save(retrievedUser);
     }
-    public void updateCashBalance(String userEmail, double amount) {
+    public void addToCashBalance(String userEmail, double amount) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalStateException("User with email " + userEmail + " does not exist"));
         user.setCashBalance(user.getCashBalance() + amount);
@@ -65,4 +65,10 @@ public class UserService {
     }
 
 
+    public void subtractFromCashBalance(String userEmail, double amount) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalStateException("User with email " + userEmail + " does not exist"));
+        user.setCashBalance(user.getCashBalance() - amount);
+        userRepository.save(user);
+    }
 }

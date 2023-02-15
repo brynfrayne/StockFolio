@@ -1,56 +1,55 @@
 import { React, useContext } from 'react';
 import axios from 'axios';
 import { PortfolioContext } from '../../context/PortfolioContext';
+import { TransactionContext } from '../../context/TransactionContext';
 import { UserContext } from '../../context/UserContext';
 import { Modal, Button } from 'react-bootstrap';
 import { formatCurrency } from '../../utils';
 
 
-export function TransactionConfirmation({
-                            assetToPurchase,
-                            stock,
-                            showConfirmation,
-                            setShowConfirmation,
-                            setShow,
-                            transactionType,
-                            apiPath
-                        }
-                        ) {
-    const { assetQuantity, assetCostBasis, ticker, cashBalance } = assetToPurchase;
-    const { setAssetToAdd } = useContext(PortfolioContext);
+export function TransactionConfirmation({ transactionType }) {
+    const { assetToAdd, setAssetToAdd } = useContext(PortfolioContext);
     const { setUser } = useContext(UserContext);
+    const {
+        assetToPurchase,
+        selectedType,
+        stock,
+        showConfirmation,
+        setShowConfirmation,
+        setShow,
+        apiPath
+    } = useContext(TransactionContext);
+    const { assetQuantity, assetCostBasis, ticker, cashBalance } = assetToPurchase;
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleCancel = () => {
         setShowConfirmation(false);
     }
-
+    console.log(assetToPurchase);
     const headers = { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` } };
     const axiosTransactionCall = () => {
-        if (transactionType.type === 'deposit') {
+        if (selectedType.type === 'deposit') {
         return axios.put(`${apiUrl}/user/deposit-cash`,
             assetToPurchase,
             headers
         );
-    } else if (transactionType.type === 'buy') {
-        return axios.post(`${apiUrl}/asset`,
-            assetToPurchase,
-            headers
-        );
-    } else if (transactionType.type === 'sell') {
-        return axios.put(`${apiUrl}/asset/${stock.id}`,
-            assetToPurchase,
-            headers
-        );
+        } else if (selectedType.type === 'buy') {
+            return axios.post(`${apiUrl}/asset`,
+                assetToPurchase,
+                headers
+            );
+        } else if (selectedType.type === 'sell') {
+            return axios.put(`${apiUrl}/asset/${stock.id}`,
+                assetToPurchase,
+                headers
+            );
+        }
     }
-}
-    console.log(stock)
-    console.log(assetToPurchase)
-
     const handleConfirm = async () => {
         try {
             const response = await axiosTransactionCall();
             console.log(response);
+            setAssetToAdd(!assetToAdd); // this solves the useEffect dependency issue - in a less than ideal way
             const updatedUserResponse = await axios.get(`${apiUrl}/user`,
                 {
                     headers: {
@@ -62,7 +61,7 @@ export function TransactionConfirmation({
             setUser(updatedUserResponse.data);
             setShowConfirmation(false);
             setShow(false);
-            setAssetToAdd(true)
+
         }
         catch (error) {
             console.log(error);

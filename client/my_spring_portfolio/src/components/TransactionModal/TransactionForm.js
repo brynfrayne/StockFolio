@@ -1,29 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { TransactionFormInputs } from './TransactionFormInputs';
 import { formattedDate } from '../../utils';
-import axios from 'axios';
+import { TransactionContext } from '../../context/TransactionContext';
 
 
-export function TransactionForm({
-                    setRequestType,
-                    setAssetToPurchase,
-                    show,
-                    setShow,
-                    setShowConfirmation,
-                    transactionType,
-                    setApiPath,
-                    stock,
-                    setStock,
-                    stockPrice,
-                    setStockPrice,
-                    quantity,
-                    setQuantity,
-                    selectedOption,
-                    setSelectedOption
-                }
-                ) {
+export function TransactionForm({ transactionType, selectedType }) {
     const handleClose = () => setShow(false);
+    const {
+        setAssetToPurchase,
+        show,
+        setShow,
+        setShowConfirmation,
+        setApiPath,
+        stock,
+        stockPrice,
+        quantity,
+        selectedOption,
+      } = useContext(TransactionContext);
 
     const handleBuyAsset = () => {
         updateAssetToPurchase();
@@ -32,58 +26,49 @@ export function TransactionForm({
     }
 
     const updateAssetToPurchase = () => {
-        if (transactionType.type === 'buy') {
+        if (selectedType.type === 'buy') {
             setAssetToPurchase({
                 name: selectedOption[0].name,
                 ticker: selectedOption[0].symbol,
                 assetQuantity: parseInt(quantity),
                 currentAssetPrice: parseFloat(stockPrice),
                 assetCostBasis: parseFloat(stockPrice),
-                datePurchased: formattedDate,
+                datePurchased: [formattedDate],
             });
             setApiPath('asset')
-        } else if (transactionType.type === 'sell') {
+        } else if (selectedType.type === 'sell') {
             setAssetToPurchase({
                 name: stock.name,
                 ticker: stock.ticker,
                 assetQuantity: quantity,
                 currentAssetPrice: parseFloat(stock.currentAssetPrice),
                 assetCostBasis: parseFloat(stock.assetCostBasis),
-                datePurchased: stock.datePurchased,
             });
             setApiPath('asset/sell')
-        } else if (transactionType.type === 'deposit') {
+        } else if (selectedType.type === 'deposit') {
             setAssetToPurchase({
                 cashBalance: parseInt(quantity),
             })
             setApiPath('user/deposit-cash')
         }
     }
-
+    if (!selectedType) {
+        return null;
+    }
     return (
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-        <Modal.Title>{transactionType.name}</Modal.Title>
+        <Modal.Title>{selectedType.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <TransactionFormInputs
-                selectedOption={selectedOption}
-                setSelectedOption={setSelectedOption}
-                stockPrice={stockPrice}
-                setStockPrice={setStockPrice}
-                stock={stock}
-                setStock={setStock}
-                quantity={quantity}
-                setQuantity={setQuantity}
-                transactionType={transactionType}
-            />
+            <TransactionFormInputs transactionType={transactionType} selectedType={selectedType} />
         </Modal.Body>
         <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
             Close
         </Button>
         <Button variant="primary" onClick={handleBuyAsset}>
-            {transactionType.name}
+            {selectedType.name}
         </Button>
         </Modal.Footer>
     </Modal>
