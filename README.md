@@ -8,7 +8,9 @@ The application allows users to view a summary of their investments, calculate h
 
 **Client:** React, Bootstrap
 
-**Server:** Spring Boot
+**Security:** JWT, BCrypt
+
+**Server:** Spring Boot, Maven
 
 **Database:** Postgresql
 
