@@ -9,7 +9,7 @@ import { AssetTable } from '../../components/AssetTable/AssetTable';
 
 export function FetchAssets({ assets, setAssets, apiPath }) {
     const [isLoading, setIsLoading] = useState(true);
-    const { assetToAdd, setAssetToAdd } = useContext(PortfolioContext);
+    const { assetToAdd } = useContext(PortfolioContext);
     const token = sessionStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
 
